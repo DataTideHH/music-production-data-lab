@@ -1,6 +1,6 @@
-# Data model v0.1
+# Data model v0.2
 
-This document describes the first conceptual data model for music-production-data-lab.
+This document describes the conceptual data model for `music-production-data-lab`.
 
 Version 1 uses CSV files only. Later versions can transform these CSV files into a relational SQLite database.
 
@@ -9,16 +9,25 @@ Version 1 uses CSV files only. Later versions can transform these CSV files into
 The project models a music production setup as a set of related entities:
 
     equipment
+    -> music references
     -> soundchains
     -> soundchain items
-    -> boards / setups
-    -> music references
+    -> boards and workflows
+    -> analyses and dashboards
 
-## Main entities
+## Current CSV entities
 
-### equipment
+Version 1 uses three public-safe CSV files:
 
-General inventory-like entity for public-safe equipment items.
+    data/public/equipment_public.csv
+    data/public/music_references_public.csv
+    data/public/soundchains_public.csv
+
+These files are sample datasets. They are not the full private inventory.
+
+## Entity: equipment
+
+`equipment_public.csv` stores public-safe equipment items.
 
 Examples:
 
@@ -32,36 +41,44 @@ Examples:
 - utility
 - monitoring
 
-In version 1, this is represented by:
+The table uses `equipment_id` as a stable identifier.
 
-    data/public/equipment_public.csv
+Example identifier:
 
-### music_references
+    EQP-0001
 
-Reference artists, bands or sound axes used for learning, sound design and workflow planning.
+## Entity: music_references
 
-In version 1, this is represented by:
+`music_references_public.csv` stores public-safe reference artists, bands or sound concepts.
 
-    data/public/music_references_public.csv
+These entries are used to connect learning goals, sound design ideas and gear/workflow decisions.
 
-### soundchains
+The table uses `reference_id` as a stable identifier.
 
-A soundchain describes a practical signal or workflow concept.
+Example identifier:
 
-Example:
+    REF-0001
+
+## Entity: soundchains
+
+`soundchains_public.csv` stores public-safe workflow or signal-chain concepts.
+
+A soundchain is not just a list of devices. It describes a target sound or workflow such as:
 
     guitar
     -> distortion
     -> chorus
     -> amp platform
 
-In version 1, this is represented by:
+The table uses `soundchain_id` as a stable identifier.
 
-    data/public/soundchains_public.csv
+Example identifier:
+
+    SC-0001
 
 ## Future relational model
 
-Later versions should split the data into normalized relational tables.
+Later versions should split the project into normalized relational tables.
 
 Possible future tables:
 
@@ -70,25 +87,28 @@ Possible future tables:
     pedals
     instruments
     amps_cabs
-    recording_tools
+    recording_hardware
     software_tools
+    midi_controllers
     music_references
+    sound_axes
     soundchains
     soundchain_items
     boards
     board_items
+    data_quality_checks
 
 ## Important relationships
 
 ### Equipment and soundchains
 
-A soundchain can use multiple equipment items.
+One soundchain can use multiple equipment items.
 
-An equipment item can appear in multiple soundchains.
+One equipment item can appear in multiple soundchains.
 
 This is a many-to-many relationship.
 
-Future relational table:
+Future table:
 
     soundchain_items
 
@@ -102,11 +122,11 @@ Possible fields:
 
 ### Boards and equipment
 
-A board can contain multiple equipment items.
+One board can contain multiple equipment items.
 
-An equipment item can appear in multiple boards or board concepts.
+One equipment item can appear on multiple boards or in multiple board concepts.
 
-Future relational table:
+Future table:
 
     board_items
 
@@ -118,15 +138,34 @@ Possible fields:
     role_on_board
     power_source
 
+### Music references and soundchains
+
+One music reference can inform multiple soundchains.
+
+One soundchain can be inspired by multiple references.
+
+Future table:
+
+    reference_soundchain_links
+
+Possible fields:
+
+    reference_id
+    soundchain_id
+    relevance
+    learning_focus
+
 ## Version 1 design decision
 
 Version 1 intentionally avoids building the database too early.
 
-The goal is to make the source data understandable first:
+The current goal is to make the source data understandable first:
 
     CSV structure
     -> field names
+    -> identifiers
     -> public/private boundaries
-    -> first documentation
+    -> documentation
+    -> later database schema
 
 Only after that should the relational database schema be created.

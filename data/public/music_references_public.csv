@@ -1,6 +1,6 @@
-reference_id,artist_or_band,sound_axis,importance_public,learning_focus,gear_anchor_public,tuning_notes_public
-REF-0001,Nirvana,grunge_90s_alternative,core,dynamics powerchords raw distortion,distortion chorus amp platform,eb_or_standard_song_dependent
-REF-0002,Smashing Pumpkins,alternative_fuzz_layering,core,fuzz layers sustain arrangement thinking,fuzz distortion amp platform,eb_song_dependent
-REF-0003,Oasis,indie_britpop_jangle,context,open chords jangle songwriting,bright guitar light drive amp platform,standard_or_capo_song_dependent
-REF-0004,The Cure,post_punk_ambient_texture,context,chorus delay atmosphere arrangement,chorus delay reverb clean platform,standard_song_dependent
-REF-0005,Queens of the Stone Age,riff_rock_stoner,context,dry riffing midrange groove,drive amp platform phaser,c_standard_or_song_dependent
+reference_id,artist_or_band,sound_axis,importance_public,reference_role,learning_focus,gear_anchor_public,tuning_notes_public,data_quality_status,privacy_level,public_notes
+REF-0001,Nirvana,grunge_90s_alternative,core,playing_reference,dynamics_powerchords_raw_distortion,distortion_chorus_amp_platform,eb_or_standard_song_dependent,sample,public_safe,Public-safe reference for dynamic alternative rock sound design.
+REF-0002,Smashing Pumpkins,alternative_fuzz_layering,core,sound_design_reference,fuzz_layers_sustain_arrangement_thinking,fuzz_distortion_amp_platform,eb_song_dependent,sample,public_safe,Public-safe reference for layered fuzz and arrangement thinking.
+REF-0003,Oasis,indie_britpop_jangle,context,songwriting_reference,open_chords_jangle_songwriting,bright_guitar_light_drive_amp_platform,standard_or_capo_song_dependent,sample,public_safe,Public-safe reference for jangle and song structure.
+REF-0004,The Cure,post_punk_ambient_texture,context,sound_design_reference,chorus_delay_atmosphere_arrangement,chorus_delay_reverb_clean_platform,standard_song_dependent,sample,public_safe,Public-safe reference for atmospheric guitar textures.
+REF-0005,Queens of the Stone Age,riff_rock_stoner,context,rhythm_reference,dry_riffing_midrange_groove,drive_amp_platform_phaser,c_standard_or_song_dependent,sample,public_safe,Public-safe reference for dry riff-oriented sound design.

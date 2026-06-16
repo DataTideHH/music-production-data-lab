@@ -10,6 +10,7 @@ The following content can be published after review:
 
 - README documentation
 - conceptual data model
+- CSV schema documentation
 - curated sample CSV files
 - public-safe equipment categories
 - public-safe soundchain examples
@@ -44,7 +45,7 @@ Protected folders:
     data/private/
     sources/private/
 
-These folders are intentionally ignored by Git except for .gitkeep placeholder files.
+These folders are intentionally ignored by Git except for `.gitkeep` placeholder files.
 
 ## Public release checklist
 
@@ -58,3 +59,5 @@ Before making the repository public, check:
 - all uncertain specifications are marked cautiously
 - README explains the data project clearly
 - sample data is curated and public-safe
+- CSV files follow the documented schema
+- data-quality assumptions are documented
