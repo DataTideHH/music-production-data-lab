@@ -160,6 +160,15 @@ The planning document is available here:
 
 The Power BI `.pbix` file and any screenshots must be reviewed before they are committed or published.
 
+
+## Power BI overview screenshot
+
+The first local Power BI dashboard page shows the current public sample model as a simple project overview:
+
+![Power BI overview dashboard](docs/images/powerbi-overview.png)
+
+The `.pbix` file remains private and is not committed. Only the public-safe screenshot is included.
+
 ## Planned technologies
 
 - CSV for version-controlled source data
@@ -169,3 +178,4 @@ The Power BI `.pbix` file and any screenshots must be reviewed before they are c
 - Power BI for dashboarding
 - Streamlit as an optional interactive explorer
 - Flask only as an optional API extension
+
