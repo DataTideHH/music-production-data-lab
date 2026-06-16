@@ -29,3 +29,10 @@ sources/private/*
 # Local notes / scratch files
 _notes/
 scratch/
+
+# Power BI local files
+*.pbix
+*.pbit
+*.pbip/
+powerbi/private/
+powerbi/local/
