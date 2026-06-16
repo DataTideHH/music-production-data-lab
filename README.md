@@ -112,6 +112,23 @@ Protected local folders:
 
 These folders are ignored by Git except for `.gitkeep` placeholder files.
 
+
+## Reproducible database build
+
+Version 3.0 adds a Python-based build step.
+
+Run from the repository root:
+
+    python3 scripts/build_database.py
+
+The script validates the public CSV files, creates a local SQLite database, imports the data and runs SQL-based data-quality checks.
+
+Default generated database:
+
+    db/music_production_data_lab.sqlite
+
+The `db/` folder is ignored by Git. Generated SQLite databases are local build artifacts and should not be committed.
+
 ## Planned technologies
 
 - CSV for version-controlled source data
