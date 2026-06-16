@@ -129,6 +129,18 @@ Default generated database:
 
 The `db/` folder is ignored by Git. Generated SQLite databases are local build artifacts and should not be committed.
 
+
+## Build verification
+
+Version 3.1 documents that the reproducible database build has been tested on both macOS and Windows.
+
+Verified commands:
+
+    python3 scripts/build_database.py
+    py -3.12 scripts\build_database.py
+
+The generated SQLite database is stored locally under `db/` and is ignored by Git.
+
 ## Planned technologies
 
 - CSV for version-controlled source data
