@@ -141,6 +141,25 @@ Verified commands:
 
 The generated SQLite database is stored locally under `db/` and is ignored by Git.
 
+
+## Power BI dashboard planning
+
+Version 4 is planned as a Power BI dashboard layer.
+
+The dashboard should use the public CSV sample model to show:
+
+- equipment categories
+- soundchain usage
+- music reference mapping
+- required vs. optional equipment roles
+- data-quality and public-safe status
+
+The planning document is available here:
+
+    docs/power-bi-plan.md
+
+The Power BI `.pbix` file and any screenshots must be reviewed before they are committed or published.
+
 ## Planned technologies
 
 - CSV for version-controlled source data
