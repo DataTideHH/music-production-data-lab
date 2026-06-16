@@ -24,27 +24,45 @@ This project is designed to show practical data and process analysis skills:
 
 ## Current status
 
-Version 1.2 is a refined foundation release.
+Current public portfolio state:
 
-It contains:
+This repository now contains a small, public-safe end-to-end data product based on a real personal domain.
+
+It includes:
 
 - public-safe sample CSV files
-- a first relationship table for soundchains and equipment
+- stable identifiers and documented categories
 - a documented CSV schema
-- a conceptual data model prepared for SQLite
-- a recruiter- and internship-oriented portfolio positioning document
+- a conceptual data model prepared for relational use
+- a SQLite schema
+- SQL example queries
+- SQL data-quality queries
+- a Python build script for reproducible CSV-to-SQLite imports
+- cross-platform build verification on macOS and Windows
+- Power BI dashboard planning
+- a first public-safe Power BI overview screenshot
 - a publication policy for private/public separation
+
+The generated SQLite database and the Power BI `.pbix` file are local build/reporting artifacts and are not committed.
 
 ## Repository structure
 
     music-production-data-lab/
     ├── README.md
     ├── docs/
+    │   ├── build-verification.md
     │   ├── csv-schema.md
     │   ├── data-model.md
     │   ├── portfolio-positioning.md
+    │   ├── power-bi-dashboard-notes.md
+    │   ├── power-bi-plan.md
     │   ├── project-purpose.md
-    │   └── publication-policy.md
+    │   ├── publication-policy.md
+    │   ├── python-import-notes.md
+    │   ├── sqlite-model-notes.md
+    │   └── images/
+    │       ├── .gitkeep
+    │       └── powerbi-overview.png
     ├── data/
     │   ├── public/
     │   │   ├── equipment_public.csv
@@ -53,6 +71,12 @@ It contains:
     │   │   └── soundchains_public.csv
     │   └── private/
     │       └── .gitkeep
+    ├── scripts/
+    │   └── build_database.py
+    ├── sql/
+    │   ├── data_quality_queries.sql
+    │   ├── example_queries.sql
+    │   └── schema.sql
     └── sources/
         └── private/
             └── .gitkeep
@@ -178,4 +202,5 @@ The `.pbix` file remains private and is not committed. Only the public-safe scre
 - Power BI for dashboarding
 - Streamlit as an optional interactive explorer
 - Flask only as an optional API extension
+
 
