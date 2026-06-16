@@ -1,0 +1,6 @@
+equipment_id,category,subcategory,brand,model,public_name,status_public,primary_role,analog_digital,mono_stereo,power_notes_public,public_notes
+EQP-0001,effect,distortion,Boss,DS-1-WH,DS-1 Distortion,owned,raw distortion for grunge and punk,analog,mono,9V DC center-negative; exact current to verify,Public-safe example item for a distortion soundchain.
+EQP-0002,effect,chorus,Electro-Harmonix,Neo Clone,Neo Clone,owned,chorus texture for clean and alternative sounds,analog,mono,9V DC center-negative; exact current to verify,Public-safe example item for modulation and grunge-related sounds.
+EQP-0003,instrument,electric_guitar,Fender,Player Stratocaster SSS,Player Stratocaster SSS,owned,bright single-coil guitar for clean jangle and alternative rock,not_applicable,not_applicable,not_applicable,Public-safe example instrument entry.
+EQP-0004,amplification,modeling_amp,Line 6,Catalyst 60,Catalyst 60,owned,clean or crunch amp platform,digital,mono,standard amp power supply,Public-safe example amp platform.
+EQP-0005,recording_hardware,audio_interface,Steinberg,UR22C,UR22C,owned,recording interface for instruments and MIDI,digital,stereo,USB powered,Public-safe example recording hardware item.

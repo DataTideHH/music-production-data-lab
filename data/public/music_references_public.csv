@@ -1,0 +1,6 @@
+reference_id,artist_or_band,sound_axis,importance_public,learning_focus,gear_anchor_public,tuning_notes_public
+REF-0001,Nirvana,grunge_90s_alternative,core,dynamics powerchords raw distortion,distortion chorus amp platform,eb_or_standard_song_dependent
+REF-0002,Smashing Pumpkins,alternative_fuzz_layering,core,fuzz layers sustain arrangement thinking,fuzz distortion amp platform,eb_song_dependent
+REF-0003,Oasis,indie_britpop_jangle,context,open chords jangle songwriting,bright guitar light drive amp platform,standard_or_capo_song_dependent
+REF-0004,The Cure,post_punk_ambient_texture,context,chorus delay atmosphere arrangement,chorus delay reverb clean platform,standard_song_dependent
+REF-0005,Queens of the Stone Age,riff_rock_stoner,context,dry riffing midrange groove,drive amp platform phaser,c_standard_or_song_dependent
