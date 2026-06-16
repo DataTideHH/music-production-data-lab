@@ -1,4 +1,4 @@
-# Data model v0.2
+# Data model v0.3
 
 This document describes the conceptual data model for `music-production-data-lab`.
 
@@ -11,17 +11,18 @@ The project models a music production setup as a set of related entities:
     equipment
     -> music references
     -> soundchains
-    -> soundchain items
+    -> soundchain equipment links
     -> boards and workflows
     -> analyses and dashboards
 
 ## Current CSV entities
 
-Version 1 uses three public-safe CSV files:
+Version 1.2 uses four public-safe CSV files:
 
     data/public/equipment_public.csv
     data/public/music_references_public.csv
     data/public/soundchains_public.csv
+    data/public/soundchain_equipment_public.csv
 
 These files are sample datasets. They are not the full private inventory.
 
@@ -33,48 +34,92 @@ Examples:
 
 - instrument
 - effect
-- amplifier
-- cabinet
+- amplification
 - recording hardware
 - software
 - MIDI controller
-- utility
-- monitoring
+- power utility
 
-The table uses `equipment_id` as a stable identifier.
+Primary key:
 
-Example identifier:
+    equipment_id
 
-    EQP-0001
+SQLite preparation:
+
+    equipment_id TEXT PRIMARY KEY
+    category TEXT NOT NULL
+    subcategory TEXT
+    brand TEXT
+    model TEXT
+    public_name TEXT NOT NULL
+    status_public TEXT
+    is_hardware INTEGER
+    is_software INTEGER
 
 ## Entity: music_references
 
 `music_references_public.csv` stores public-safe reference artists, bands or sound concepts.
 
-These entries are used to connect learning goals, sound design ideas and gear/workflow decisions.
+These entries connect learning goals, sound design ideas and workflow decisions.
 
-The table uses `reference_id` as a stable identifier.
+Primary key:
 
-Example identifier:
+    reference_id
 
-    REF-0001
+SQLite preparation:
+
+    reference_id TEXT PRIMARY KEY
+    artist_or_band TEXT NOT NULL
+    sound_axis TEXT NOT NULL
+    importance_public TEXT
+    reference_role TEXT
 
 ## Entity: soundchains
 
 `soundchains_public.csv` stores public-safe workflow or signal-chain concepts.
 
-A soundchain is not just a list of devices. It describes a target sound or workflow such as:
+A soundchain is not just a list of devices. It describes a target sound or workflow.
 
-    guitar
-    -> distortion
-    -> chorus
-    -> amp platform
+Primary key:
 
-The table uses `soundchain_id` as a stable identifier.
+    soundchain_id
 
-Example identifier:
+SQLite preparation:
 
-    SC-0001
+    soundchain_id TEXT PRIMARY KEY
+    chain_name TEXT NOT NULL
+    target_sound TEXT
+    sound_axis TEXT
+    workflow_type TEXT
+    primary_reference_id TEXT
+    output_context TEXT
+
+## Relationship: soundchain_equipment
+
+`soundchain_equipment_public.csv` connects soundchains and equipment items.
+
+This is the first actual relationship table in the project.
+
+One soundchain can contain multiple equipment items.
+
+One equipment item can appear in multiple soundchains.
+
+Primary key candidate:
+
+    soundchain_id + equipment_id + position_in_chain
+
+SQLite preparation:
+
+    soundchain_id TEXT NOT NULL
+    equipment_id TEXT NOT NULL
+    position_in_chain INTEGER NOT NULL
+    role_in_chain TEXT
+    required_or_optional TEXT
+
+Future foreign keys:
+
+    soundchain_id -> soundchains.soundchain_id
+    equipment_id -> equipment.equipment_id
 
 ## Future relational model
 
@@ -98,74 +143,38 @@ Possible future tables:
     board_items
     data_quality_checks
 
-## Important relationships
+## Power BI preparation
 
-### Equipment and soundchains
+The current CSV structure is designed to support later Power BI modeling.
 
-One soundchain can use multiple equipment items.
+Potential relationships:
 
-One equipment item can appear in multiple soundchains.
+    soundchains_public[soundchain_id]
+    -> soundchain_equipment_public[soundchain_id]
 
-This is a many-to-many relationship.
+    equipment_public[equipment_id]
+    -> soundchain_equipment_public[equipment_id]
 
-Future table:
+    music_references_public[reference_id]
+    -> soundchains_public[primary_reference_id]
 
-    soundchain_items
+This makes it possible to analyze:
 
-Possible fields:
+- equipment usage per soundchain
+- most frequently used equipment categories
+- sound axes by reference and workflow type
+- hardware versus software distribution
+- sample data quality and privacy status
 
-    soundchain_id
-    equipment_id
-    position_in_chain
-    role_in_chain
-    required_or_optional
+## Version 1.2 design decision
 
-### Boards and equipment
+Version 1.2 still avoids building the database too early.
 
-One board can contain multiple equipment items.
-
-One equipment item can appear on multiple boards or in multiple board concepts.
-
-Future table:
-
-    board_items
-
-Possible fields:
-
-    board_id
-    equipment_id
-    fixed_or_swap
-    role_on_board
-    power_source
-
-### Music references and soundchains
-
-One music reference can inform multiple soundchains.
-
-One soundchain can be inspired by multiple references.
-
-Future table:
-
-    reference_soundchain_links
-
-Possible fields:
-
-    reference_id
-    soundchain_id
-    relevance
-    learning_focus
-
-## Version 1 design decision
-
-Version 1 intentionally avoids building the database too early.
-
-The current goal is to make the source data understandable first:
+The current goal is to make the data structure realistic enough for later SQLite and Power BI work:
 
     CSV structure
-    -> field names
-    -> identifiers
+    -> stable IDs
+    -> relationship table
     -> public/private boundaries
-    -> documentation
+    -> data-quality fields
     -> later database schema
-
-Only after that should the relational database schema be created.

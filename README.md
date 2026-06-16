@@ -6,22 +6,34 @@ Structured data and documentation project for a personal music production setup.
 
 `music-production-data-lab` is a private-first data modeling and documentation project.
 
-It turns unstructured notes about a real music production setup into structured, analysis-ready data. The project covers instruments, effects, amplifiers, cabinets, recording hardware, software, MIDI tools, music references, soundchains and example setups.
+It transforms unstructured working notes about a real music production setup into structured, analysis-ready data. The project covers instruments, effects, amplifiers, recording hardware, software, MIDI tools, music references, soundchains and practical workflows.
 
-The purpose is not to publish a complete private gear collection. The purpose is to demonstrate a clean workflow for transforming real-world domain knowledge into documented datasets, a relational data model and later reproducible SQL, Python and BI analyses.
+The goal is not to publish a complete private gear collection. The goal is to demonstrate how real-world domain knowledge can be turned into documented datasets, a relational data model and later reproducible SQL, Python and BI analyses.
+
+## Portfolio value
+
+This project is designed to show practical data and process analysis skills:
+
+- turning semi-structured notes into clean tabular data
+- defining stable identifiers and categories
+- separating public-safe sample data from private source material
+- preparing data for SQLite, SQL and Power BI
+- modeling many-to-many relationships
+- documenting assumptions and data-quality boundaries
+- building a small but realistic data product from a real domain
 
 ## Current status
 
-Version 1.1 is a foundation release.
+Version 1.2 is a refined foundation release.
 
 It contains:
 
 - public-safe sample CSV files
-- a first conceptual data model
+- a first relationship table for soundchains and equipment
 - a documented CSV schema
-- a project-purpose document
+- a conceptual data model prepared for SQLite
+- a recruiter- and internship-oriented portfolio positioning document
 - a publication policy for private/public separation
-- a repository structure prepared for later SQLite, Python, Power BI and Streamlit work
 
 ## Repository structure
 
@@ -30,12 +42,14 @@ It contains:
     ├── docs/
     │   ├── csv-schema.md
     │   ├── data-model.md
+    │   ├── portfolio-positioning.md
     │   ├── project-purpose.md
     │   └── publication-policy.md
     ├── data/
     │   ├── public/
     │   │   ├── equipment_public.csv
     │   │   ├── music_references_public.csv
+    │   │   ├── soundchain_equipment_public.csv
     │   │   └── soundchains_public.csv
     │   └── private/
     │       └── .gitkeep
@@ -44,8 +58,6 @@ It contains:
             └── .gitkeep
 
 ## Data product idea
-
-The project is designed as a small end-to-end data product:
 
     unstructured notes
     -> structured CSV files
@@ -65,6 +77,15 @@ The project is designed as a small end-to-end data product:
 | v5 | Streamlit explorer |
 | v6 | Optional Flask API |
 
+## Current CSV files
+
+| File | Purpose |
+|---|---|
+| `equipment_public.csv` | Public-safe sample equipment data |
+| `music_references_public.csv` | Public-safe music reference and sound-axis data |
+| `soundchains_public.csv` | Public-safe soundchain and workflow concepts |
+| `soundchain_equipment_public.csv` | Relationship table between soundchains and equipment |
+
 ## Data model focus
 
 The central modeling challenge is the relationship between equipment, music references, soundchains and practical setups.
@@ -73,17 +94,10 @@ Examples:
 
 - one equipment item can appear in multiple soundchains
 - one soundchain can use multiple equipment items
-- one reference artist can be linked to multiple sound axes
-- one setup can be described as a practical workflow rather than as a simple inventory list
+- one reference artist can inform multiple soundchains
+- one setup can be described as a workflow instead of a simple inventory list
 
-This makes the project useful for practicing:
-
-- entity design
-- category design
-- many-to-many relationships
-- data-quality rules
-- public/private data separation
-- documentation for reproducible analysis
+This makes the project useful for practicing entity design, many-to-many relationships, data-quality rules and dashboard preparation.
 
 ## Public/private principle
 

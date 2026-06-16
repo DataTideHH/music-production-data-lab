@@ -15,6 +15,7 @@ The following content can be published after review:
 - public-safe equipment categories
 - public-safe soundchain examples
 - public-safe music reference mappings
+- relationship tables with public-safe sample data
 - SQL schema and example queries
 - Python scripts that do not expose private data
 - dashboard screenshots based on curated public data
@@ -61,3 +62,4 @@ Before making the repository public, check:
 - sample data is curated and public-safe
 - CSV files follow the documented schema
 - data-quality assumptions are documented
+- relationship tables contain only public-safe IDs and notes

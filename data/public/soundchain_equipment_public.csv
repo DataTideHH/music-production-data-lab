@@ -1,0 +1,17 @@
+soundchain_id,equipment_id,position_in_chain,role_in_chain,required_or_optional,sequence_group,public_notes
+SC-0001,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
+SC-0001,EQP-0002,2,main_distortion,required,gain_stage,Core distortion example.
+SC-0001,EQP-0003,3,optional_chorus,optional,modulation,Optional chorus texture.
+SC-0001,EQP-0004,4,amp_platform,required,output,Output platform example.
+SC-0002,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
+SC-0002,EQP-0008,2,main_fuzz,required,gain_stage,Core fuzz example.
+SC-0002,EQP-0004,3,amp_platform,required,output,Output platform example.
+SC-0003,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
+SC-0003,EQP-0004,2,clean_amp_platform,required,output,Clean or light crunch platform.
+SC-0004,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
+SC-0004,EQP-0003,2,chorus_texture,required,modulation,Core modulation example.
+SC-0004,EQP-0004,3,amp_or_monitoring_platform,required,output,Amp or DAW output context.
+SC-0005,EQP-0005,1,audio_interface,required,input_output,Recording interface example.
+SC-0005,EQP-0007,2,daw_environment,required,software,DAW workflow example.
+SC-0005,EQP-0006,3,midi_input,optional,midi,Optional MIDI input example.
+SC-0005,EQP-0010,4,plugin_processing,optional,software,Optional native plugin processing example.
