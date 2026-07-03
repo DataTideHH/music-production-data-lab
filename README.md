@@ -2,6 +2,8 @@
 
 Structured data and documentation project for a personal music production setup.
 
+Project page: https://datatidehh.github.io/music-production-data-lab/
+
 ## Overview
 
 `music-production-data-lab` is a private-first data modeling and documentation project.
@@ -41,6 +43,7 @@ It includes:
 - cross-platform build verification on macOS and Windows
 - Power BI dashboard planning
 - a first public-safe Power BI overview screenshot
+- a GitHub Pages project landing page
 - a publication policy for private/public separation
 
 The generated SQLite database and the Power BI `.pbix` file are local build/reporting artifacts and are not committed.
@@ -50,6 +53,8 @@ The generated SQLite database and the Power BI `.pbix` file are local build/repo
     music-production-data-lab/
     ├── README.md
     ├── docs/
+    │   ├── _config.yml
+    │   ├── index.md
     │   ├── build-verification.md
     │   ├── csv-schema.md
     │   ├── data-model.md
@@ -193,6 +198,22 @@ The first local Power BI dashboard page shows the current public sample model as
 
 The `.pbix` file remains private and is not committed. Only the public-safe screenshot is included.
 
+## GitHub Pages project site
+
+This repository includes a small project landing page under:
+
+    docs/index.md
+
+After GitHub Pages is enabled for the repository, the published site is available at:
+
+    https://datatidehh.github.io/music-production-data-lab/
+
+Recommended GitHub Pages settings:
+
+    Source: Deploy from a branch
+    Branch: main
+    Folder: /docs
+
 ## Planned technologies
 
 - CSV for version-controlled source data
@@ -202,5 +223,4 @@ The `.pbix` file remains private and is not committed. Only the public-safe scre
 - Power BI for dashboarding
 - Streamlit as an optional interactive explorer
 - Flask only as an optional API extension
-
 
