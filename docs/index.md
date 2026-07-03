@@ -1,9 +1,9 @@
 ---
-title: music-production-data-lab
+title: Music Production Data Lab
 description: Public-safe data modeling and BI portfolio project
 ---
 
-# music-production-data-lab
+# Music Production Data Lab
 
 **Public-safe data modeling project turning semi-structured music production notes into structured CSV data, a relational model, SQL queries, a Python build workflow and a Power BI reporting layer.**
 
