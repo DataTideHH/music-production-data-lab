@@ -7,7 +7,7 @@ description: Public-safe data modeling and BI portfolio project
 
 **Public-safe data modeling project turning semi-structured music production notes into structured CSV data, a relational model, SQL queries, a Python build workflow and a Power BI reporting layer.**
 
-[View repository](https://github.com/DataTideHH/music-production-data-lab) · [Read the full README](https://github.com/DataTideHH/music-production-data-lab/blob/main/README.md)
+[View repository](https://github.com/DataTideHH/music-production-data-lab) · [Read the full README](https://github.com/DataTideHH/music-production-data-lab/blob/main/README.md) · [DataTideHH portfolio](https://datatidehh.de/)
 
 ---
 
@@ -91,6 +91,13 @@ The `.pbix` file remains private. Only reviewed public-safe screenshots are publ
 
 ---
 
+## Related DataTideHH project pages
+
+- [Network Operations Data Lab](https://datatidehh.github.io/network-operations-data-lab/) — public-safe operational IT data, Python, SQL and data-quality workflow
+- [Spring Boot Process API Basics](https://datatidehh.github.io/spring-boot-process-api-basics/) — small Java/Spring REST API for structured process-check data
+
+---
+
 ## Next steps
 
 The next useful project steps are:
@@ -98,4 +105,4 @@ The next useful project steps are:
 1. refine the Power BI overview into a small multi-page dashboard
 2. add one exported reporting dataset from SQL queries
 3. document the dashboard interpretation for a recruiter or technical reviewer
-4. prepare the same GitHub Pages pattern for another portfolio repository
+4. keep the project aligned with the broader DataTideHH portfolio structure
