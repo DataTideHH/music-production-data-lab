@@ -6,7 +6,7 @@ Project page: https://datatidehh.github.io/music-production-data-lab/
 
 ## Overview
 
-`music-production-data-lab` is a private-first data modeling and documentation project.
+`music-production-data-lab` is a public-safe data modeling and documentation project based on a real personal domain.
 
 It transforms unstructured working notes about a real music production setup into structured, analysis-ready data. The project covers instruments, effects, amplifiers, recording hardware, software, MIDI tools, music references, soundchains and practical workflows.
 
@@ -223,4 +223,3 @@ Recommended GitHub Pages settings:
 - Power BI for dashboarding
 - Streamlit as an optional interactive explorer
 - Flask only as an optional API extension
-
