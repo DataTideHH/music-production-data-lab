@@ -1,4 +1,21 @@
-theme: jekyll-theme-minimal
+theme: jekyll-theme-cayman
 title: Music Production Data Lab
 description: Public-safe data modeling and BI portfolio project
 show_downloads: false
+repository: DataTideHH/music-production-data-lab
+url: https://datatidehh.github.io
+baseurl: /music-production-data-lab
+lang: en
+
+plugins:
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
