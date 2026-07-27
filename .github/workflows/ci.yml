@@ -59,7 +59,21 @@ jobs:
 
       - name: Run unit tests
         shell: pwsh
-        run: python -m unittest discover -s tests -p "test_*.py" -v
+        run: |
+          python -m unittest discover -s tests -p "test_*.py" -v 2>&1 |
+            Tee-Object -FilePath windows-test-output.txt
+          if ($LASTEXITCODE -ne 0) {
+            exit $LASTEXITCODE
+          }
+
+      - name: Upload Windows test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-test-diagnostics
+          path: windows-test-output.txt
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Build validated SQLite database
         shell: pwsh
