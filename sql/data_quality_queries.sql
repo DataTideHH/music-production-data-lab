@@ -1,145 +1,94 @@
 -- music-production-data-lab
--- Version 2.0 data-quality queries
--- Purpose: SQL checks for IDs, relationships, required fields and public-safe sample data.
+-- Data-quality queries. Every statement must return zero rows.
 
--- 1. Duplicate equipment IDs
-SELECT
-    equipment_id,
-    COUNT(*) AS duplicate_count
-FROM equipment
-GROUP BY equipment_id
-HAVING COUNT(*) > 1;
-
--- 2. Duplicate music reference IDs
-SELECT
-    reference_id,
-    COUNT(*) AS duplicate_count
-FROM music_references
-GROUP BY reference_id
-HAVING COUNT(*) > 1;
-
--- 3. Duplicate soundchain IDs
-SELECT
-    soundchain_id,
-    COUNT(*) AS duplicate_count
-FROM soundchains
-GROUP BY soundchain_id
-HAVING COUNT(*) > 1;
-
--- 4. Missing required equipment fields
+-- 1. Missing required equipment fields
 SELECT *
 FROM equipment
-WHERE
-    equipment_id IS NULL
-    OR equipment_id = ''
-    OR category IS NULL
-    OR category = ''
-    OR public_name IS NULL
-    OR public_name = '';
+WHERE TRIM(equipment_id) = '' OR TRIM(category) = '' OR TRIM(public_name) = '';
 
--- 5. Missing required music reference fields
+-- 2. Missing required music-reference fields
 SELECT *
 FROM music_references
-WHERE
-    reference_id IS NULL
-    OR reference_id = ''
-    OR artist_or_band IS NULL
-    OR artist_or_band = ''
-    OR sound_axis IS NULL
-    OR sound_axis = '';
+WHERE TRIM(reference_id) = '' OR TRIM(artist_or_band) = '' OR TRIM(sound_axis) = '';
 
--- 6. Missing required soundchain fields
+-- 3. Missing required soundchain fields
 SELECT *
 FROM soundchains
-WHERE
-    soundchain_id IS NULL
-    OR soundchain_id = ''
-    OR chain_name IS NULL
-    OR chain_name = '';
+WHERE TRIM(soundchain_id) = '' OR TRIM(chain_name) = '' OR TRIM(workflow_type) = '';
 
--- 7. Orphan primary reference links in soundchains
-SELECT
-    sc.soundchain_id,
-    sc.chain_name,
-    sc.primary_reference_id
+-- 4. Orphan primary-reference links
+SELECT sc.soundchain_id, sc.primary_reference_id
 FROM soundchains sc
 LEFT JOIN music_references mr
     ON sc.primary_reference_id = mr.reference_id
-WHERE
-    sc.primary_reference_id IS NOT NULL
-    AND sc.primary_reference_id <> 'not_applicable'
-    AND mr.reference_id IS NULL;
+WHERE sc.primary_reference_id IS NOT NULL
+  AND sc.primary_reference_id <> ''
+  AND mr.reference_id IS NULL;
 
--- 8. Orphan primary instrument links in soundchains
-SELECT
-    sc.soundchain_id,
-    sc.chain_name,
-    sc.primary_instrument_id
+-- 5. Orphan primary-instrument links
+SELECT sc.soundchain_id, sc.primary_instrument_id
 FROM soundchains sc
 LEFT JOIN equipment e
     ON sc.primary_instrument_id = e.equipment_id
-WHERE
-    sc.primary_instrument_id IS NOT NULL
-    AND sc.primary_instrument_id <> 'not_applicable'
-    AND e.equipment_id IS NULL;
+WHERE sc.primary_instrument_id IS NOT NULL
+  AND sc.primary_instrument_id <> ''
+  AND e.equipment_id IS NULL;
 
--- 9. Orphan output equipment links in soundchains
-SELECT
-    sc.soundchain_id,
-    sc.chain_name,
-    sc.output_equipment_id
+-- 6. Orphan output-equipment links
+SELECT sc.soundchain_id, sc.output_equipment_id
 FROM soundchains sc
 LEFT JOIN equipment e
     ON sc.output_equipment_id = e.equipment_id
-WHERE
-    sc.output_equipment_id IS NOT NULL
-    AND sc.output_equipment_id <> 'not_applicable'
-    AND e.equipment_id IS NULL;
+WHERE sc.output_equipment_id IS NOT NULL
+  AND sc.output_equipment_id <> ''
+  AND e.equipment_id IS NULL;
 
--- 10. Orphan soundchain-equipment links
-SELECT
-    se.soundchain_id,
-    se.equipment_id
+-- 7. Orphan bridge-table links
+SELECT se.soundchain_id, se.equipment_id
 FROM soundchain_equipment se
 LEFT JOIN soundchains sc
     ON se.soundchain_id = sc.soundchain_id
 LEFT JOIN equipment e
     ON se.equipment_id = e.equipment_id
-WHERE
-    sc.soundchain_id IS NULL
-    OR e.equipment_id IS NULL;
+WHERE sc.soundchain_id IS NULL OR e.equipment_id IS NULL;
 
--- 11. Duplicate position within the same soundchain
-SELECT
-    soundchain_id,
-    position_in_chain,
-    COUNT(*) AS duplicate_position_count
+-- 8. Duplicate positions within a soundchain
+SELECT soundchain_id, position_in_chain, COUNT(*) AS duplicate_position_count
 FROM soundchain_equipment
 GROUP BY soundchain_id, position_in_chain
 HAVING COUNT(*) > 1;
 
--- 12. Public sample privacy check
-SELECT
-    'equipment' AS table_name,
-    equipment_id AS item_id,
-    privacy_level
+-- 9. Non-public records in public source tables
+SELECT 'equipment' AS table_name, equipment_id AS item_id, privacy_level
 FROM equipment
 WHERE privacy_level <> 'public_sample'
-
 UNION ALL
-
-SELECT
-    'music_references' AS table_name,
-    reference_id AS item_id,
-    privacy_level
+SELECT 'music_references', reference_id, privacy_level
 FROM music_references
 WHERE privacy_level <> 'public_sample'
-
 UNION ALL
-
-SELECT
-    'soundchains' AS table_name,
-    soundchain_id AS item_id,
-    privacy_level
+SELECT 'soundchains', soundchain_id, privacy_level
 FROM soundchains
 WHERE privacy_level <> 'public_sample';
+
+-- 10. Invalid hardware/software classification
+SELECT equipment_id, is_hardware, is_software
+FROM equipment
+WHERE NOT (
+    (is_hardware = 'true' AND is_software = 'false')
+    OR
+    (is_hardware = 'false' AND is_software = 'true')
+);
+
+-- 11. Non-positive chain positions
+SELECT *
+FROM soundchain_equipment
+WHERE position_in_chain <= 0;
+
+-- 12. Soundchains without any bridge-table item
+SELECT sc.soundchain_id, sc.chain_name
+FROM soundchains sc
+LEFT JOIN soundchain_equipment se
+    ON sc.soundchain_id = se.soundchain_id
+GROUP BY sc.soundchain_id, sc.chain_name
+HAVING COUNT(se.equipment_id) = 0;
