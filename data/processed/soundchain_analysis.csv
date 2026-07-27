@@ -1,0 +1,13 @@
+soundchain_id,chain_name,workflow_type,sound_axis,complexity_level,primary_reference,total_steps,required_steps,optional_steps,swap_candidate_steps
+SC-0010,Stereo Ambient Recording,recording_workflow,post_punk_ambient_texture,advanced,The Cure,7,5,1,1
+SC-0012,Layered Delay Recording,recording_workflow,fuzz_indie_lead,advanced,Dinosaur Jr.,6,5,1,0
+SC-0004,Ambient Post Punk Texture,guitar_signal_chain,post_punk_ambient_texture,advanced,The Cure,5,4,1,0
+SC-0009,Clean Compression Tracking,recording_workflow,blues_clean_overdrive,intermediate,Stevie Ray Vaughan,5,4,1,0
+SC-0006,Pop Punk Rhythm,guitar_signal_chain,punk_pop_punk,intermediate,Blink-182,5,3,1,1
+SC-0002,Fuzz Layering,guitar_signal_chain,alternative_fuzz_layering,intermediate,Smashing Pumpkins,4,3,1,0
+SC-0001,Grunge Punk Distortion,guitar_signal_chain,grunge_90s_alternative,basic,Nirvana,4,3,1,0
+SC-0005,Recording Interface Workflow,recording_workflow,recording_workflow,basic,New Order,4,2,2,0
+SC-0007,Stoner Riff,guitar_signal_chain,riff_rock_stoner,intermediate,Queens of the Stone Age,4,3,0,1
+SC-0008,Garage Fuzz Contrast,guitar_signal_chain,garage_fuzz_riff,basic,Jack White,3,3,0,0
+SC-0003,Indie Jangle Clean,guitar_signal_chain,indie_britpop_jangle,basic,Oasis,3,2,1,0
+SC-0011,Low Volume Tube Practice,guitar_signal_chain,psychedelic_blues_rock,basic,Jimi Hendrix,3,2,1,0
