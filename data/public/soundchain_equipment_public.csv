@@ -1,17 +1,54 @@
 soundchain_id,equipment_id,position_in_chain,role_in_chain,required_or_optional,sequence_group,public_notes
-SC-0001,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
-SC-0001,EQP-0002,2,main_distortion,required,gain_stage,Core distortion example.
-SC-0001,EQP-0003,3,optional_chorus,optional,modulation,Optional chorus texture.
-SC-0001,EQP-0004,4,amp_platform,required,output,Output platform example.
-SC-0002,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
-SC-0002,EQP-0008,2,main_fuzz,required,gain_stage,Core fuzz example.
-SC-0002,EQP-0004,3,amp_platform,required,output,Output platform example.
-SC-0003,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
-SC-0003,EQP-0004,2,clean_amp_platform,required,output,Clean or light crunch platform.
-SC-0004,EQP-0001,1,input_instrument,required,input,Primary public-safe guitar example.
-SC-0004,EQP-0003,2,chorus_texture,required,modulation,Core modulation example.
-SC-0004,EQP-0004,3,amp_or_monitoring_platform,required,output,Amp or DAW output context.
-SC-0005,EQP-0005,1,audio_interface,required,input_output,Recording interface example.
-SC-0005,EQP-0007,2,daw_environment,required,software,DAW workflow example.
-SC-0005,EQP-0006,3,midi_input,optional,midi,Optional MIDI input example.
-SC-0005,EQP-0010,4,plugin_processing,optional,software,Optional native plugin processing example.
+SC-0001,EQP-0001,1,input_instrument,required,input,Primary guitar input.
+SC-0001,EQP-0002,2,main_distortion,required,gain_stage,Core distortion stage.
+SC-0001,EQP-0003,3,chorus_texture,optional,modulation,Optional modulation stage.
+SC-0001,EQP-0004,4,amp_platform,required,output,Reusable amplifier output.
+SC-0002,EQP-0011,1,input_instrument,required,input,Versatile guitar input.
+SC-0002,EQP-0008,2,main_fuzz,required,gain_stage,Primary fuzz stage.
+SC-0002,EQP-0016,3,character_delay,optional,modulation,Optional texture and movement.
+SC-0002,EQP-0004,4,amp_platform,required,output,Amplifier output.
+SC-0003,EQP-0012,1,input_instrument,required,input,Bright rhythm input.
+SC-0003,EQP-0014,2,light_overdrive,optional,gain_stage,Optional edge and mid focus.
+SC-0003,EQP-0021,3,clean_amp_platform,required,output,Clean or lightly driven output.
+SC-0004,EQP-0013,1,input_instrument,required,input,Semi-hollow input.
+SC-0004,EQP-0017,2,stereo_tremolo,optional,modulation,Optional rhythmic movement.
+SC-0004,EQP-0015,3,multi_mode_delay,required,modulation,Primary time-based stage.
+SC-0004,EQP-0018,4,ambient_reverb,required,modulation,Primary spatial stage.
+SC-0004,EQP-0005,5,audio_interface,required,input_output,Recording output and monitoring boundary.
+SC-0005,EQP-0005,1,audio_interface,required,input_output,Core recording interface.
+SC-0005,EQP-0007,2,daw_environment,required,software,Core DAW environment.
+SC-0005,EQP-0006,3,midi_input,optional,midi,Optional MIDI input.
+SC-0005,EQP-0010,4,native_processing,optional,software,Optional native processing environment.
+SC-0006,EQP-0011,1,input_instrument,required,input,Primary rhythm guitar.
+SC-0006,EQP-0020,2,peak_control,optional,gain_stage,Optional fast compression before gain.
+SC-0006,EQP-0014,3,rhythm_overdrive,required,gain_stage,Mid-focused rhythm definition.
+SC-0006,EQP-0002,4,distortion_stage,swap_candidate,gain_stage,Alternative higher-gain stage.
+SC-0006,EQP-0021,5,amp_platform,required,output,Modeling amplifier output.
+SC-0007,EQP-0011,1,input_instrument,required,input,Primary riff guitar.
+SC-0007,EQP-0014,2,main_overdrive,required,gain_stage,Core mid-focused drive.
+SC-0007,EQP-0026,3,fuzz_option,swap_candidate,gain_stage,Selectable thicker fuzz stage.
+SC-0007,EQP-0024,4,tube_amp_platform,required,output,Tube-head output.
+SC-0008,EQP-0012,1,input_instrument,required,input,Bright input for contrast.
+SC-0008,EQP-0026,2,main_fuzz,required,gain_stage,Raw fuzz stage.
+SC-0008,EQP-0023,3,compact_amp_platform,required,output,Compact amplifier output.
+SC-0009,EQP-0001,1,input_instrument,required,input,Single-coil tracking input.
+SC-0009,EQP-0020,2,fast_compression,required,gain_stage,Fast peak-control stage.
+SC-0009,EQP-0014,3,light_overdrive,optional,gain_stage,Optional overdrive for dynamic comparison.
+SC-0009,EQP-0005,4,audio_interface,required,input_output,Direct recording interface.
+SC-0009,EQP-0007,5,daw_environment,required,software,DAW capture and arrangement.
+SC-0010,EQP-0013,1,input_instrument,required,input,Stereo-capable source workflow.
+SC-0010,EQP-0017,2,stereo_tremolo,optional,modulation,Optional stereo movement.
+SC-0010,EQP-0015,3,stereo_delay,required,modulation,Primary stereo delay stage.
+SC-0010,EQP-0019,4,plate_reverb,swap_candidate,modulation,Alternative focused reverb stage.
+SC-0010,EQP-0018,5,ambient_reverb,required,modulation,Main ambient reverb stage.
+SC-0010,EQP-0005,6,audio_interface,required,input_output,Stereo recording interface.
+SC-0010,EQP-0007,7,daw_environment,required,software,DAW arrangement and capture.
+SC-0011,EQP-0001,1,input_instrument,required,input,Dynamic single-coil input.
+SC-0011,EQP-0014,2,light_overdrive,optional,gain_stage,Optional push into tube amplifier.
+SC-0011,EQP-0025,3,attenuated_tube_amp,required,output,Low-volume tube output.
+SC-0012,EQP-0011,1,input_instrument,required,input,Primary layered-recording input.
+SC-0012,EQP-0002,2,distortion_stage,optional,gain_stage,Optional distortion before delay.
+SC-0012,EQP-0016,3,character_delay,required,modulation,Character delay for texture.
+SC-0012,EQP-0015,4,multi_mode_delay,required,modulation,Multi-mode delay for secondary layers.
+SC-0012,EQP-0005,5,audio_interface,required,input_output,Recording interface.
+SC-0012,EQP-0007,6,daw_environment,required,software,DAW capture and arrangement.
