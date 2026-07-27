@@ -1,225 +1,224 @@
-# music-production-data-lab
+# Music Production Data Lab
 
-Structured data and documentation project for a personal music production setup.
+[![CI](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml)
+
+Public-safe analytics project that transforms semi-structured music-production notes into validated relational data, reproducible Python/SQLite builds, SQL analysis and Power BI reporting evidence.
 
 Project page: https://datatidehh.github.io/music-production-data-lab/
 
-## Overview
+## Problem and portfolio purpose
 
-`music-production-data-lab` is a public-safe data modeling and documentation project based on a real personal domain.
+Personal working notes about instruments, effects, amplification, recording tools and sound-design workflows are useful to the owner but unsuitable for analysis: naming varies, relationships are implicit, and private details must not be published.
 
-It transforms unstructured working notes about a real music production setup into structured, analysis-ready data. The project covers instruments, effects, amplifiers, recording hardware, software, MIDI tools, music references, soundchains and practical workflows.
+This repository demonstrates a bounded data and process-analysis workflow:
 
-The goal is not to publish a complete private gear collection. The goal is to demonstrate how real-world domain knowledge can be turned into documented datasets, a relational data model and later reproducible SQL, Python and BI analyses.
+```text
+semi-structured domain notes
+-> curated public-safe CSV source data
+-> documented entities and controlled values
+-> validated relational SQLite model
+-> SQL analysis and data-quality checks
+-> Power BI reporting layer
+```
 
-## Portfolio value
+The domain is music production, but the portfolio evidence is transferable: requirements clarification, entity and relationship design, data governance, reproducible processing, validation, analysis and stakeholder-oriented documentation.
 
-This project is designed to show practical data and process analysis skills:
+## Current evidence
 
-- turning semi-structured notes into clean tabular data
-- defining stable identifiers and categories
-- separating public-safe sample data from private source material
-- preparing data for SQLite, SQL and Power BI
-- modeling many-to-many relationships
-- documenting assumptions and data-quality boundaries
-- building a small but realistic data product from a real domain
+| Layer | Evidence |
+|---|---|
+| Source data | Four curated public-safe CSV tables with stable identifiers |
+| Data model | Equipment, music references, soundchains and a bridge table |
+| Governance | Explicit public/private boundary and automated safety checks |
+| Python | Dependency-free Python 3.12 build and validation workflow |
+| SQL | Constrained SQLite schema, analytical queries and zero-row quality checks |
+| Testing | 12 unit tests covering success and failure paths |
+| CI | Ubuntu and Windows jobs on Python 3.12 |
+| BI | Public-safe Power BI overview screenshot and documented semantic-model plan |
+| Documentation | GitHub Pages, ER diagram, data dictionary and reviewer path |
 
-## Current status
+Generated SQLite databases and Power BI working files are local artifacts and are not committed.
 
-Current public portfolio state:
+## Architecture
 
-This repository now contains a small, public-safe end-to-end data product based on a real personal domain.
+```mermaid
+flowchart LR
+    A[Private working notes] -->|curation| B[Public-safe CSV tables]
+    B --> C[Python validation]
+    C --> D[SQLite schema and import]
+    D --> E[SQL analysis]
+    D --> F[Data-quality checks]
+    B --> G[Power BI semantic model]
+    E --> G
+    G --> H[Reviewed portfolio screenshots]
+```
 
-It includes:
+The central many-to-many relationship is:
 
-- public-safe sample CSV files
-- stable identifiers and documented categories
-- a documented CSV schema
-- a conceptual data model prepared for relational use
-- a SQLite schema
-- SQL example queries
-- SQL data-quality queries
-- a Python build script for reproducible CSV-to-SQLite imports
-- cross-platform build verification on macOS and Windows
-- Power BI dashboard planning
-- a first public-safe Power BI overview screenshot
-- a GitHub Pages project landing page
-- a publication policy for private/public separation
+```text
+soundchains
+    1 -> n
+soundchain_equipment
+    n -> 1
+equipment
+```
 
-The generated SQLite database and the Power BI `.pbix` file are local build/reporting artifacts and are not committed.
+See [Data model](docs/data-model.md) and [Data dictionary](docs/data-dictionary.md).
 
 ## Repository structure
 
-    music-production-data-lab/
-    ├── README.md
-    ├── docs/
-    │   ├── _config.yml
-    │   ├── index.md
-    │   ├── build-verification.md
-    │   ├── csv-schema.md
-    │   ├── data-model.md
-    │   ├── portfolio-positioning.md
-    │   ├── power-bi-dashboard-notes.md
-    │   ├── power-bi-plan.md
-    │   ├── project-purpose.md
-    │   ├── publication-policy.md
-    │   ├── python-import-notes.md
-    │   ├── sqlite-model-notes.md
-    │   └── images/
-    │       ├── .gitkeep
-    │       └── powerbi-overview.png
-    ├── data/
-    │   ├── public/
-    │   │   ├── equipment_public.csv
-    │   │   ├── music_references_public.csv
-    │   │   ├── soundchain_equipment_public.csv
-    │   │   └── soundchains_public.csv
-    │   └── private/
-    │       └── .gitkeep
-    ├── scripts/
-    │   └── build_database.py
-    ├── sql/
-    │   ├── data_quality_queries.sql
-    │   ├── example_queries.sql
-    │   └── schema.sql
-    └── sources/
-        └── private/
-            └── .gitkeep
+```text
+music-production-data-lab/
+├── .github/workflows/ci.yml
+├── README.md
+├── data/
+│   ├── public/
+│   │   ├── equipment_public.csv
+│   │   ├── music_references_public.csv
+│   │   ├── soundchains_public.csv
+│   │   └── soundchain_equipment_public.csv
+│   └── private/.gitkeep
+├── docs/
+│   ├── assets/css/style.scss
+│   ├── images/powerbi-overview.png
+│   ├── index.md
+│   ├── data-model.md
+│   ├── data-dictionary.md
+│   ├── testing-and-ci.md
+│   ├── publication-policy.md
+│   ├── power-bi-plan.md
+│   └── official-references.md
+├── scripts/
+│   └── build_database.py
+├── sql/
+│   ├── schema.sql
+│   ├── example_queries.sql
+│   └── data_quality_queries.sql
+└── tests/
+    └── test_build_database.py
+```
 
-## Data product idea
+## Quick start
 
-    unstructured notes
-    -> structured CSV files
-    -> documented data model
-    -> relational schema
-    -> SQL and Python analysis
-    -> dashboard or explorer
+Requirements:
 
-## Version roadmap
+- Python 3.12
+- no third-party Python packages
 
-| Version | Scope |
-|---|---|
-| v1 | CSV files, README, data model and publication policy |
-| v2 | SQLite schema and SQL example queries |
-| v3 | Python import script and data-quality checks |
-| v4 | Power BI dashboard |
-| v5 | Streamlit explorer |
-| v6 | Optional Flask API |
+macOS/Linux:
 
-## Current CSV files
+```bash
+python3.12 -m unittest discover -s tests -p "test_*.py" -v
+python3.12 scripts/build_database.py
+```
 
-| File | Purpose |
-|---|---|
-| `equipment_public.csv` | Public-safe sample equipment data |
-| `music_references_public.csv` | Public-safe music reference and sound-axis data |
-| `soundchains_public.csv` | Public-safe soundchain and workflow concepts |
-| `soundchain_equipment_public.csv` | Relationship table between soundchains and equipment |
+Windows PowerShell:
 
-## Data model focus
-
-The central modeling challenge is the relationship between equipment, music references, soundchains and practical setups.
-
-Examples:
-
-- one equipment item can appear in multiple soundchains
-- one soundchain can use multiple equipment items
-- one reference artist can inform multiple soundchains
-- one setup can be described as a workflow instead of a simple inventory list
-
-This makes the project useful for practicing entity design, many-to-many relationships, data-quality rules and dashboard preparation.
-
-## Public/private principle
-
-Only curated public-safe sample data belongs in `data/public/`.
-
-Private source files, full inventories, purchase notes, prices, serial numbers, personal working notes and original Word documents must not be committed.
-
-Protected local folders:
-
-    data/private/
-    sources/private/
-
-These folders are ignored by Git except for `.gitkeep` placeholder files.
-
-
-## Reproducible database build
-
-Version 3.0 adds a Python-based build step.
-
-Run from the repository root:
-
-    python3 scripts/build_database.py
-
-The script validates the public CSV files, creates a local SQLite database, imports the data and runs SQL-based data-quality checks.
+```powershell
+py -3.12 -m unittest discover -s tests -p "test_*.py" -v
+py -3.12 scripts\build_database.py
+```
 
 Default generated database:
 
-    db/music_production_data_lab.sqlite
+```text
+db/music_production_data_lab.sqlite
+```
 
-The `db/` folder is ignored by Git. Generated SQLite databases are local build artifacts and should not be committed.
+A custom existing output file is not replaced unless `--overwrite` is passed:
 
+```bash
+python3.12 scripts/build_database.py --db /tmp/music-lab.sqlite
+python3.12 scripts/build_database.py --db /tmp/music-lab.sqlite --overwrite
+```
 
-## Build verification
+## What the build validates
 
-Version 3.1 documents that the reproducible database build has been tested on both macOS and Windows.
+The build fails on:
 
-Verified commands:
+- missing or structurally changed CSV files
+- empty required values
+- duplicate business keys
+- invalid controlled values
+- inconsistent hardware/software classification
+- non-positive or duplicate positions in a soundchain
+- orphan relationships
+- non-public privacy classifications
+- selected sensitive-term, currency-like and serial-like patterns
+- SQLite integrity or foreign-key errors
+- any SQL data-quality query returning rows
 
-    python3 scripts/build_database.py
-    py -3.12 scripts\build_database.py
+The public-safety validation is a portfolio safeguard, not a claim that automated scanning can replace human review.
 
-The generated SQLite database is stored locally under `db/` and is ignored by Git.
+## Current analytical questions
 
+The committed SQL layer answers questions such as:
 
-## Power BI dashboard planning
+- Which equipment categories are represented?
+- Which items are reused across the most workflows?
+- How many required and optional steps exist?
+- Which soundchains are more complex?
+- Which equipment records are not yet used in a soundchain?
+- Which sound axes and reference groups are represented?
 
-Version 4 is planned as a Power BI dashboard layer.
+The next analytical increment will expand the curated sample and publish stronger Power BI measures, screenshots and written findings.
 
-The dashboard should use the public CSV sample model to show:
+## Public/private boundary
 
-- equipment categories
-- soundchain usage
-- music reference mapping
-- required vs. optional equipment roles
-- data-quality and public-safe status
+Only curated public-safe sample data belongs in `data/public/`.
 
-The planning document is available here:
+The repository must not contain:
 
-    docs/power-bi-plan.md
+- complete private inventories
+- invoices, prices or purchase dates
+- serial numbers
+- private condition or storage notes
+- original private source documents
+- unreviewed Power BI files or screenshots
 
-The Power BI `.pbix` file and any screenshots must be reviewed before they are committed or published.
+Protected local folders and file types are defined in `.gitignore`. See [Publication policy](docs/publication-policy.md).
 
+## Reviewer path
 
-## Power BI overview screenshot
+A reviewer can assess the project in a few minutes:
 
-The first local Power BI dashboard page shows the current public sample model as a simple project overview:
+1. Read the [project page](https://datatidehh.github.io/music-production-data-lab/).
+2. Inspect the [ER model](docs/data-model.md).
+3. Review the [controlled values and quality rules](docs/data-dictionary.md).
+4. Run the tests and reproducible database build.
+5. Inspect [analytical SQL](sql/example_queries.sql) and [quality checks](sql/data_quality_queries.sql).
+6. Review the [Power BI plan](docs/power-bi-plan.md) and published overview.
 
-![Power BI overview dashboard](docs/images/powerbi-overview.png)
+## Current, next and deferred scope
 
-The `.pbix` file remains private and is not committed. Only the public-safe screenshot is included.
+### Implemented
 
-## GitHub Pages project site
+- public-safe CSV source data
+- relational SQLite schema
+- Python build and validation
+- SQL analysis and data-quality checks
+- automated unit tests
+- cross-platform GitHub Actions
+- initial Power BI overview
+- GitHub Pages documentation
 
-This repository includes a small project landing page under:
+### Next
 
-    docs/index.md
+- enlarge the curated public sample without publishing the full private inventory
+- add richer analytical SQL outputs
+- document DAX measures and the semantic model
+- publish two or three reviewed Power BI pages with written findings
 
-After GitHub Pages is enabled for the repository, the published site is available at:
+### Deferred
 
-    https://datatidehh.github.io/music-production-data-lab/
+- Streamlit explorer
+- additional API layer
 
-Recommended GitHub Pages settings:
+An API is not required for the current analytical objective; the separate `spring-boot-process-api-basics` repository already provides API evidence within the broader DataTideHH portfolio.
 
-    Source: Deploy from a branch
-    Branch: main
-    Folder: /docs
+## Related DataTideHH projects
 
-## Planned technologies
-
-- CSV for version-controlled source data
-- Markdown for documentation
-- SQLite and SQL for relational modeling
-- Python and pandas for imports and data-quality checks
-- Power BI for dashboarding
-- Streamlit as an optional interactive explorer
-- Flask only as an optional API extension
+- [Network Operations Data Lab](https://datatidehh.github.io/network-operations-data-lab/) — operational IT data, Python, SQL and quality reporting
+- [Hamburg District Data Basics](https://github.com/DataTideHH/hamburg-district-data-basics) — public/open-data analysis and Power BI preparation
+- [Open-Meteo Germany Weather Ranking](https://github.com/DataTideHH/open-meteo-germany-weather-ranking) — API, JSON, scoring and tested Python workflow
+- [Spring Boot Process API Basics](https://datatidehh.github.io/spring-boot-process-api-basics/) — Java/Spring API evidence supporting, rather than duplicating, this analytics project

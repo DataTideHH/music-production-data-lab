@@ -1,108 +1,106 @@
 ---
 title: Music Production Data Lab
-description: Public-safe data modeling and BI portfolio project
+description: Public-safe relational data, Python, SQL, data quality and Power BI
 ---
 
 # Music Production Data Lab
 
-**Public-safe data modeling project turning semi-structured music production notes into structured CSV data, a relational model, SQL queries, a Python build workflow and a Power BI reporting layer.**
+**Public-safe analytics project turning semi-structured music-production notes into validated relational data, reproducible Python/SQLite builds, SQL analysis and Power BI reporting evidence.**
 
-[View repository](https://github.com/DataTideHH/music-production-data-lab) · [Read the full README](https://github.com/DataTideHH/music-production-data-lab/blob/main/README.md) · [DataTideHH portfolio](https://datatidehh.de/)
-
----
-
-## Project purpose
-
-This project demonstrates how real-world domain knowledge can be transformed into a small, documented data product.
-
-The source domain is a music production setup, but the portfolio focus is data and process analysis:
-
-- turn semi-structured working notes into clean tabular data
-- define stable IDs, categories and relationships
-- separate public-safe sample data from private source material
-- build a relational model with SQLite and SQL
-- validate data quality with reproducible checks
-- prepare a Power BI reporting layer for communication and review
+[View repository](https://github.com/DataTideHH/music-production-data-lab) · [Run the project](https://github.com/DataTideHH/music-production-data-lab#quick-start) · [DataTideHH portfolio](https://datatidehh.de/)
 
 ---
 
-## Workflow
+## Why this project exists
+
+The source domain contains heterogeneous objects and workflows: instruments, effects, amplification, software, recording hardware, references and ordered signal chains. The analytical problem is to make those concepts consistent, relational and reviewable without publishing private source material.
 
 ```text
-Unstructured notes
--> curated public-safe CSV files
--> documented data model
--> SQLite schema and database build
--> SQL analysis and data-quality checks
--> Power BI overview dashboard
+semi-structured notes
+-> curated public-safe CSV tables
+-> Python validation
+-> constrained SQLite model
+-> SQL analysis and quality checks
+-> Power BI reporting layer
 ```
 
 ---
 
-## Current portfolio artifacts
+## Current evidence
 
-| Artifact | What it shows |
+| Evidence | What it demonstrates |
 |---|---|
-| [CSV schema](csv-schema.md) | Public-safe table structure and field documentation |
-| [Data model](data-model.md) | Conceptual model, entities and relationships |
-| [SQLite model notes](sqlite-model-notes.md) | Relational preparation and database design notes |
-| [Python import notes](python-import-notes.md) | Reproducible CSV-to-SQLite build workflow |
-| [Power BI plan](power-bi-plan.md) | Planned dashboard pages, relationships and measures |
-| [Publication policy](publication-policy.md) | Public/private boundary and portfolio safety rules |
+| [Data model](data-model.md) | Entities, relationships and modelling decisions |
+| [Data dictionary](data-dictionary.md) | Controlled values, keys and business rules |
+| [Python workflow](python-import-notes.md) | Reproducible import and validation |
+| [Testing and CI](testing-and-ci.md) | 12 tests plus Ubuntu and Windows automation |
+| [SQL model](sqlite-model-notes.md) | Constraints, analytical queries and quality checks |
+| [Power BI plan](power-bi-plan.md) | Semantic-model and reporting design |
+| [Publication policy](publication-policy.md) | Public/private boundary |
+| [Official references](official-references.md) | Primary technical documentation |
 
 ---
 
-## Data model focus
+## Relational focus
 
-The central modeling challenge is the relationship between equipment, music references, soundchains and practical workflows.
+The main analytical relationship is an ordered bridge between soundchains and equipment:
 
-The current public model includes four main CSV tables:
+```text
+soundchains
+    1 -> n
+soundchain_equipment
+    n -> 1
+equipment
+```
 
-| Table | Role |
-|---|---|
-| `equipment_public.csv` | Public-safe equipment dimension table |
-| `music_references_public.csv` | Reference artists, sound axes and learning goals |
-| `soundchains_public.csv` | Workflow or signal-chain concepts |
-| `soundchain_equipment_public.csv` | Bridge table connecting soundchains and equipment |
+The bridge supports equipment reuse, sequence analysis, required/optional roles and workflow-level reporting.
 
-This makes the project useful for practicing many-to-many relationships, data-quality checks and BI-style reporting preparation.
+---
+
+## Automated quality controls
+
+The workflow checks:
+
+- exact CSV structure and required values
+- duplicate keys and soundchain positions
+- controlled categorical values
+- hardware/software classification
+- foreign-key relationships
+- public privacy classifications
+- selected sensitive patterns
+- SQLite integrity
+- SQL quality queries that must return zero rows
+
+GitHub Actions runs the same build on Ubuntu and Windows with Python 3.12.
 
 ---
 
 ## Power BI overview
 
-The first public-safe Power BI overview page summarizes the current sample model as a small data product.
-
 ![Power BI overview dashboard](images/powerbi-overview.png)
 
-The `.pbix` file remains private. Only reviewed public-safe screenshots are published.
+The published screenshot uses only reviewed public-safe sample data. The `.pbix` working file remains local.
 
 ---
 
-## What this demonstrates
+## Portfolio relevance
 
-- structured data modeling from messy source material
-- public/private data separation
-- relational thinking with stable identifiers and bridge tables
-- SQL and Python build workflow documentation
-- data-quality awareness
-- Power BI dashboard preparation
-- clear portfolio communication for Data/BI and process-analysis roles
+This project demonstrates:
 
----
+- data modelling from messy domain knowledge
+- many-to-many relationship design
+- data quality and governance basics
+- reproducible Python and SQL workflows
+- cross-platform validation
+- reporting preparation and technical communication
 
-## Related DataTideHH project pages
-
-- [Network Operations Data Lab](https://datatidehh.github.io/network-operations-data-lab/) — public-safe operational IT data, Python, SQL and data-quality workflow
-- [Spring Boot Process API Basics](https://datatidehh.github.io/spring-boot-process-api-basics/) — small Java/Spring REST API for structured process-check data
+The next increment will expand the curated analytical sample and publish stronger Power BI measures, screenshots and written findings.
 
 ---
 
-## Next steps
+## Related DataTideHH projects
 
-The next useful project steps are:
-
-1. refine the Power BI overview into a small multi-page dashboard
-2. add one exported reporting dataset from SQL queries
-3. document the dashboard interpretation for a recruiter or technical reviewer
-4. keep the project aligned with the broader DataTideHH portfolio structure
+- [Network Operations Data Lab](https://datatidehh.github.io/network-operations-data-lab/) — operational IT analytics
+- [Hamburg District Data Basics](https://github.com/DataTideHH/hamburg-district-data-basics) — public/open-data analysis
+- [Open-Meteo Germany Weather Ranking](https://github.com/DataTideHH/open-meteo-germany-weather-ranking) — API-based Python workflow
+- [Spring Boot Process API Basics](https://datatidehh.github.io/spring-boot-process-api-basics/) — supporting API evidence

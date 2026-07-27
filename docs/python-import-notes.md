@@ -1,59 +1,47 @@
-# Python import notes
+# Python build workflow
 
-Version 3.0 introduces a reproducible Python import workflow.
+`scripts/build_database.py` turns the committed public CSV files into a validated local SQLite database.
 
-The goal is to turn the public CSV sample data into a local SQLite database and validate the import.
+## Runtime
 
-## Added file
+- Python 3.12
+- standard library only
 
-    scripts/build_database.py
+## Workflow
 
-## What the script does
+1. Read the four public CSV files as UTF-8.
+2. Validate headers, required values and keys.
+3. Validate controlled values and cross-field business rules.
+4. Validate relationships before database insertion.
+5. Scan for selected public-safety risks.
+6. Build a temporary SQLite database.
+7. Import all rows in dependency order.
+8. Run integrity, foreign-key, analytical and quality checks.
+9. Atomically replace the requested output only after success.
 
-The script:
+## Commands
 
-- reads the public CSV files from `data/public/`
-- validates the expected CSV columns
-- checks primary key uniqueness
-- checks public CSV data for obvious sensitive terms
-- creates a local SQLite database from `sql/schema.sql`
-- imports the CSV rows into SQLite
-- validates foreign key integrity
-- runs `sql/example_queries.sql`
-- runs `sql/data_quality_queries.sql` and expects no result rows
+macOS/Linux:
 
-## Build command
+```bash
+python3.12 scripts/build_database.py
+```
 
-Run from the repository root:
+Windows PowerShell:
 
-    python3 scripts/build_database.py
+```powershell
+py -3.12 scripts\build_database.py
+```
 
-Default output:
+Custom outputs are protected from accidental replacement:
 
-    db/music_production_data_lab.sqlite
+```bash
+python3.12 scripts/build_database.py --db /tmp/music-lab.sqlite
+python3.12 scripts/build_database.py --db /tmp/music-lab.sqlite --overwrite
+```
 
-The `db/` folder is ignored by Git. The generated SQLite database is a local build artifact and should not be committed.
+## Error contract
 
-## Why this matters
+Validation and filesystem failures produce an `ERROR:` message and exit code 1. Successful builds print the database path and row count for each table.
 
-This turns the project from static documentation into a reproducible data workflow:
-
-    CSV
-    -> Python validation
-    -> SQLite database
-    -> SQL analysis
-
-This is relevant for data and process analysis because it demonstrates:
-
-- import logic
-- schema alignment
-- primary key checks
-- relationship validation
-- data-quality checks
-- reproducible local builds
-
-## Current limitation
-
-Version 3.0 still uses only the Python standard library.
-
-A later version can add pandas-based checks, richer logging, automated tests or a Streamlit explorer.
+See [Testing and CI](testing-and-ci.md) for automated failure-path coverage.

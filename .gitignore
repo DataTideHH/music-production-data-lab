@@ -1,15 +1,17 @@
-# macOS
 .DS_Store
 
 # Editors / IDEs
 .idea/
 .vscode/
 
-# Python environments and caches
+# Python environments, caches and test artifacts
 .venv/
 venv/
 __pycache__/
 *.pyc
+.pytest_cache/
+.coverage
+htmlcov/
 .ipynb_checkpoints/
 
 # Generated databases and exports
