@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ubuntu:
+    name: Python 3.12 (Ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Compile workflow and tests
+        run: |
+          python -m py_compile scripts/build_database.py tests/test_build_database.py
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Build validated SQLite database
+        run: python scripts/build_database.py --db "${{ runner.temp }}/music-production-data-lab.sqlite"
+
+  windows:
+    name: Python 3.12 (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Compile workflow and tests
+        shell: pwsh
+        run: python -m py_compile scripts/build_database.py tests/test_build_database.py
+
+      - name: Run unit tests
+        shell: pwsh
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Build validated SQLite database
+        shell: pwsh
+        run: python scripts/build_database.py --db "$env:RUNNER_TEMP\music-production-data-lab.sqlite"
