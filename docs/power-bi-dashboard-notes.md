@@ -1,48 +1,35 @@
 # Power BI dashboard notes
 
-This document will track implementation notes for the future Power BI dashboard.
-
 ## Current status
 
-Power BI dashboard implementation has not started yet.
+A first public-safe overview page has been implemented and published as a reviewed screenshot:
 
-Version 4 planning is documented in:
+![Power BI overview dashboard](images/powerbi-overview.png)
 
-    docs/power-bi-plan.md
+The `.pbix` working file remains local and ignored by Git.
 
-## Intended dashboard purpose
+## Current purpose
 
-The dashboard should show that `music-production-data-lab` is a small data product.
+The dashboard is evidence of the reporting layer around the relational sample. It should present the repository as a small data product rather than a gear collection.
 
-It should demonstrate:
+## Planned analytical pages
 
-- data modeling
-- relationship modeling
-- public-safe reporting
-- workflow analysis
-- data-quality awareness
-- portfolio-ready communication
+The next reporting increment should focus on three complete pages:
 
-## Initial dashboard pages
+1. **Overview** — source-table KPIs, categories and workflow counts
+2. **Soundchain analysis** — ordered equipment use, reuse, complexity and optional stages
+3. **Data quality and governance** — quality status, privacy status and model coverage
 
-Planned pages:
+Five sparse pages are not the objective. A smaller set of complete pages with documented findings is stronger.
 
-1. Project Overview
-2. Equipment Model
-3. Soundchain Analysis
-4. Music References and Sound Axes
-5. Data Quality and Public-Safe Status
+## Version-controlled evidence to add
 
-## Data source recommendation
+```text
+powerbi/
+├── README.md
+├── measures.dax
+├── model.md
+└── findings.md
+```
 
-Initial Power BI source:
-
-    data/public/*.csv
-
-The generated SQLite database can be tested later, but the first dashboard should stay close to the version-controlled CSV files.
-
-## Public export rule
-
-Screenshots may be exported later only after a public-readiness review.
-
-The `.pbix` file should remain private until explicitly reviewed.
+Reviewed screenshots may be committed after checking that they contain only public-safe sample data.
