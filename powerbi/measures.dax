@@ -1,0 +1,112 @@
+// Music Production Data Lab
+// Public-safe Power BI measures for the CSV/SQLite semantic model.
+
+Equipment Items =
+COUNTROWS(equipment)
+
+Hardware Items =
+CALCULATE(
+    [Equipment Items],
+    equipment[is_hardware] = "true"
+)
+
+Software Items =
+CALCULATE(
+    [Equipment Items],
+    equipment[is_software] = "true"
+)
+
+Music References =
+COUNTROWS(music_references)
+
+Soundchains =
+COUNTROWS(soundchains)
+
+Guitar Signal Chains =
+CALCULATE(
+    [Soundchains],
+    soundchains[workflow_type] = "guitar_signal_chain"
+)
+
+Recording Workflows =
+CALCULATE(
+    [Soundchains],
+    soundchains[workflow_type] = "recording_workflow"
+)
+
+Equipment Uses =
+COUNTROWS(soundchain_equipment)
+
+Required Equipment Uses =
+CALCULATE(
+    [Equipment Uses],
+    soundchain_equipment[required_or_optional] = "required"
+)
+
+Optional Equipment Uses =
+CALCULATE(
+    [Equipment Uses],
+    soundchain_equipment[required_or_optional] = "optional"
+)
+
+Swap Candidate Uses =
+CALCULATE(
+    [Equipment Uses],
+    soundchain_equipment[required_or_optional] = "swap_candidate"
+)
+
+Distinct Equipment Used =
+DISTINCTCOUNT(soundchain_equipment[equipment_id])
+
+Equipment Coverage % =
+DIVIDE(
+    [Distinct Equipment Used],
+    [Equipment Items]
+)
+
+Average Steps per Soundchain =
+DIVIDE(
+    [Equipment Uses],
+    [Soundchains]
+)
+
+Maximum Steps in Soundchain =
+MAXX(
+    VALUES(soundchains[soundchain_id]),
+    CALCULATE(COUNTROWS(soundchain_equipment))
+)
+
+Reused Equipment Items =
+COUNTROWS(
+    FILTER(
+        VALUES(equipment[equipment_id]),
+        CALCULATE(DISTINCTCOUNT(soundchain_equipment[soundchain_id])) >= 2
+    )
+)
+
+Unused Equipment Items =
+[Equipment Items] - [Distinct Equipment Used]
+
+Verified Equipment Items =
+CALCULATE(
+    [Equipment Items],
+    equipment[data_quality_status] = "verified"
+)
+
+Equipment Items Needing Verification =
+CALCULATE(
+    [Equipment Items],
+    equipment[data_quality_status] = "needs_verification"
+)
+
+Required Use Share % =
+DIVIDE(
+    [Required Equipment Uses],
+    [Equipment Uses]
+)
+
+Optional or Swap Share % =
+DIVIDE(
+    [Optional Equipment Uses] + [Swap Candidate Uses],
+    [Equipment Uses]
+)

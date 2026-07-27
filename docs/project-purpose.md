@@ -1,4 +1,4 @@
-# Project purpose
+# Project Purpose
 
 `music-production-data-lab` uses a real personal domain to demonstrate a complete, bounded data and process-analysis workflow.
 
@@ -14,8 +14,14 @@ Transform a curated public subset into:
 - documented entities and business rules
 - a constrained relational model
 - reproducible Python processing
-- analytical SQL and quality checks
-- Power BI reporting evidence
+- SQL reporting views and analytical queries
+- deterministic reporting datasets
+- Power BI semantic-model and DAX evidence
+- written findings for technical and non-technical reviewers
+
+## Current analytical scope
+
+The public sample contains 30 equipment records, 12 references, 12 workflows and 53 ordered equipment uses. This supports meaningful analysis of reuse, coverage, complexity and dependency roles.
 
 ## What the project is not
 
@@ -26,4 +32,4 @@ Transform a curated public subset into:
 
 ## Practical relevance
 
-The method is transferable to business domains where subject-matter knowledge must be converted into data structures, validation rules, reports and understandable documentation.
+The method is transferable to business domains where subject-matter knowledge must be converted into data structures, validation rules, generated reports and understandable decision support.

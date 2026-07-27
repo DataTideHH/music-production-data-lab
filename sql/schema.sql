@@ -3,6 +3,9 @@
 
 PRAGMA foreign_keys = ON;
 
+DROP VIEW IF EXISTS vw_soundchain_analysis;
+DROP VIEW IF EXISTS vw_equipment_usage;
+
 DROP TABLE IF EXISTS soundchain_equipment;
 DROP TABLE IF EXISTS soundchains;
 DROP TABLE IF EXISTS music_references;
@@ -159,3 +162,53 @@ CREATE INDEX idx_soundchains_workflow_type
 
 CREATE INDEX idx_soundchain_equipment_equipment_id
     ON soundchain_equipment(equipment_id);
+
+CREATE VIEW vw_equipment_usage AS
+SELECT
+    e.equipment_id,
+    e.public_name,
+    e.category,
+    e.subcategory,
+    e.status_public,
+    e.data_quality_status,
+    COUNT(se.soundchain_id) AS soundchain_usage_count,
+    CASE
+        WHEN COUNT(se.soundchain_id) = 0 THEN 'unused'
+        WHEN COUNT(se.soundchain_id) = 1 THEN 'single_use'
+        ELSE 'reused'
+    END AS coverage_status
+FROM equipment e
+LEFT JOIN soundchain_equipment se
+    ON e.equipment_id = se.equipment_id
+GROUP BY
+    e.equipment_id,
+    e.public_name,
+    e.category,
+    e.subcategory,
+    e.status_public,
+    e.data_quality_status;
+
+CREATE VIEW vw_soundchain_analysis AS
+SELECT
+    sc.soundchain_id,
+    sc.chain_name,
+    sc.workflow_type,
+    sc.sound_axis,
+    sc.complexity_level,
+    mr.artist_or_band AS primary_reference,
+    COUNT(se.equipment_id) AS total_steps,
+    SUM(CASE WHEN se.required_or_optional = 'required' THEN 1 ELSE 0 END) AS required_steps,
+    SUM(CASE WHEN se.required_or_optional = 'optional' THEN 1 ELSE 0 END) AS optional_steps,
+    SUM(CASE WHEN se.required_or_optional = 'swap_candidate' THEN 1 ELSE 0 END) AS swap_candidate_steps
+FROM soundchains sc
+LEFT JOIN music_references mr
+    ON sc.primary_reference_id = mr.reference_id
+LEFT JOIN soundchain_equipment se
+    ON sc.soundchain_id = se.soundchain_id
+GROUP BY
+    sc.soundchain_id,
+    sc.chain_name,
+    sc.workflow_type,
+    sc.sound_axis,
+    sc.complexity_level,
+    mr.artist_or_band;

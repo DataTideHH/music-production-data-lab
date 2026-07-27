@@ -92,3 +92,45 @@ LEFT JOIN soundchain_equipment se
     ON sc.soundchain_id = se.soundchain_id
 GROUP BY sc.soundchain_id, sc.chain_name
 HAVING COUNT(se.equipment_id) = 0;
+
+-- 13. Non-contiguous positions within a soundchain
+SELECT
+    soundchain_id,
+    MIN(position_in_chain) AS first_position,
+    MAX(position_in_chain) AS last_position,
+    COUNT(*) AS position_count
+FROM soundchain_equipment
+GROUP BY soundchain_id
+HAVING MIN(position_in_chain) <> 1
+    OR MAX(position_in_chain) <> COUNT(*);
+
+-- 14. Primary instrument missing from the ordered bridge
+SELECT sc.soundchain_id, sc.primary_instrument_id
+FROM soundchains sc
+LEFT JOIN soundchain_equipment se
+    ON sc.soundchain_id = se.soundchain_id
+   AND sc.primary_instrument_id = se.equipment_id
+WHERE sc.primary_instrument_id IS NOT NULL
+  AND sc.primary_instrument_id <> ''
+  AND se.equipment_id IS NULL;
+
+-- 15. Output equipment missing from the ordered bridge
+SELECT sc.soundchain_id, sc.output_equipment_id
+FROM soundchains sc
+LEFT JOIN soundchain_equipment se
+    ON sc.soundchain_id = se.soundchain_id
+   AND sc.output_equipment_id = se.equipment_id
+WHERE sc.output_equipment_id IS NOT NULL
+  AND sc.output_equipment_id <> ''
+  AND se.equipment_id IS NULL;
+
+-- 16. Duplicate public display names
+SELECT public_name, COUNT(*) AS duplicate_count
+FROM equipment
+GROUP BY public_name
+HAVING COUNT(*) > 1;
+
+-- 17. Missing dashboard groups for music references
+SELECT reference_id, artist_or_band
+FROM music_references
+WHERE dashboard_group IS NULL OR TRIM(dashboard_group) = '';

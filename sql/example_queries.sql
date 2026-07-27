@@ -1,5 +1,5 @@
 -- music-production-data-lab
--- Analytical queries for the public-safe relational sample.
+-- Analytical queries for the expanded public-safe relational sample.
 
 -- 1. Equipment overview by category
 SELECT category, COUNT(*) AS item_count
@@ -44,26 +44,26 @@ JOIN equipment e
     ON se.equipment_id = e.equipment_id
 ORDER BY sc.soundchain_id, se.position_in_chain;
 
--- 5. Most frequently reused equipment
+-- 5. Equipment reuse and coverage classification
 SELECT
-    e.equipment_id,
-    e.public_name,
-    e.category,
-    e.primary_role,
-    COUNT(*) AS soundchain_usage_count
-FROM equipment e
-JOIN soundchain_equipment se
-    ON e.equipment_id = se.equipment_id
-GROUP BY e.equipment_id, e.public_name, e.category, e.primary_role
-ORDER BY soundchain_usage_count DESC, e.public_name;
+    equipment_id,
+    public_name,
+    category,
+    soundchain_usage_count,
+    coverage_status
+FROM vw_equipment_usage
+ORDER BY soundchain_usage_count DESC, public_name;
 
--- 6. Required versus optional equipment usage
-SELECT required_or_optional, COUNT(*) AS usage_count
+-- 6. Required, optional and swap-candidate usage
+SELECT
+    required_or_optional,
+    COUNT(*) AS usage_count,
+    ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM soundchain_equipment), 1) AS usage_share_percent
 FROM soundchain_equipment
 GROUP BY required_or_optional
 ORDER BY usage_count DESC;
 
--- 7. Sound axes represented in the sample
+-- 7. Sound axes represented in the workflow sample
 SELECT sound_axis, COUNT(*) AS soundchain_count
 FROM soundchains
 GROUP BY sound_axis
@@ -75,23 +75,105 @@ FROM music_references
 GROUP BY dashboard_group
 ORDER BY reference_count DESC, dashboard_group;
 
--- 9. Soundchain complexity and item counts
+-- 9. Soundchain complexity and dependency mix
+SELECT *
+FROM vw_soundchain_analysis
+ORDER BY total_steps DESC, chain_name;
+
+-- 10. Equipment not currently used in any workflow
 SELECT
+    equipment_id,
+    public_name,
+    category,
+    status_public,
+    data_quality_status
+FROM vw_equipment_usage
+WHERE coverage_status = 'unused'
+ORDER BY category, public_name;
+
+-- 11. Workflow coverage by equipment category
+SELECT
+    e.category,
+    COUNT(DISTINCT e.equipment_id) AS equipment_items_used,
+    COUNT(DISTINCT se.soundchain_id) AS soundchains_covered,
+    COUNT(*) AS equipment_uses
+FROM soundchain_equipment se
+JOIN equipment e
+    ON se.equipment_id = e.equipment_id
+GROUP BY e.category
+ORDER BY soundchains_covered DESC, equipment_uses DESC, e.category;
+
+-- 12. Required single-use dependencies
+SELECT
+    e.equipment_id,
+    e.public_name,
     sc.soundchain_id,
     sc.chain_name,
-    sc.complexity_level,
-    COUNT(se.equipment_id) AS equipment_steps,
-    SUM(CASE WHEN se.required_or_optional = 'optional' THEN 1 ELSE 0 END) AS optional_steps
-FROM soundchains sc
-LEFT JOIN soundchain_equipment se
-    ON sc.soundchain_id = se.soundchain_id
-GROUP BY sc.soundchain_id, sc.chain_name, sc.complexity_level
-ORDER BY equipment_steps DESC, sc.chain_name;
+    se.role_in_chain
+FROM soundchain_equipment se
+JOIN equipment e
+    ON se.equipment_id = e.equipment_id
+JOIN soundchains sc
+    ON se.soundchain_id = sc.soundchain_id
+JOIN vw_equipment_usage usage
+    ON e.equipment_id = usage.equipment_id
+WHERE se.required_or_optional = 'required'
+  AND usage.soundchain_usage_count = 1
+ORDER BY sc.chain_name, e.public_name;
 
--- 10. Equipment not currently used in any soundchain
-SELECT e.equipment_id, e.public_name, e.category
-FROM equipment e
-LEFT JOIN soundchain_equipment se
-    ON e.equipment_id = se.equipment_id
-WHERE se.equipment_id IS NULL
-ORDER BY e.category, e.public_name;
+-- 13. Recording workflow profile
+SELECT
+    soundchain_id,
+    chain_name,
+    complexity_level,
+    total_steps,
+    required_steps,
+    optional_steps,
+    swap_candidate_steps
+FROM vw_soundchain_analysis
+WHERE workflow_type = 'recording_workflow'
+ORDER BY total_steps DESC, chain_name;
+
+-- 14. Data-quality status distribution
+SELECT
+    'equipment' AS entity,
+    data_quality_status AS quality_status,
+    COUNT(*) AS record_count
+FROM equipment
+GROUP BY data_quality_status
+UNION ALL
+SELECT
+    'music_references',
+    data_quality_status,
+    COUNT(*)
+FROM music_references
+GROUP BY data_quality_status
+UNION ALL
+SELECT
+    'soundchains',
+    status_public,
+    COUNT(*)
+FROM soundchains
+GROUP BY status_public
+ORDER BY entity, quality_status;
+
+-- 15. Workflow-type summary
+SELECT
+    workflow_type,
+    COUNT(*) AS soundchain_count,
+    SUM(total_steps) AS equipment_uses,
+    ROUND(AVG(total_steps), 2) AS average_steps,
+    MAX(total_steps) AS maximum_steps
+FROM vw_soundchain_analysis
+GROUP BY workflow_type
+ORDER BY workflow_type;
+
+-- 16. Most reusable platform items
+SELECT
+    equipment_id,
+    public_name,
+    category,
+    soundchain_usage_count
+FROM vw_equipment_usage
+WHERE soundchain_usage_count >= 2
+ORDER BY soundchain_usage_count DESC, public_name;

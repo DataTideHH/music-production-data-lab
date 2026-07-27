@@ -1,35 +1,51 @@
-# Power BI dashboard notes
+# Power BI Dashboard Notes
 
 ## Current status
 
-A first public-safe overview page has been implemented and published as a reviewed screenshot:
+The project has three documented reporting pages:
 
-![Power BI overview dashboard](images/powerbi-overview.png)
+1. Project Overview
+2. Soundchain Analysis
+3. Data Quality and Coverage
 
-The `.pbix` working file remains local and ignored by Git.
+The repository contains:
 
-## Current purpose
+- one reviewed Power BI overview export
+- two deterministic data-backed page previews
+- version-controlled DAX measures
+- semantic-model documentation
+- generated reporting datasets
+- written findings
 
-The dashboard is evidence of the reporting layer around the relational sample. It should present the repository as a small data product rather than a gear collection.
+## Provenance of visual files
 
-## Planned analytical pages
+| File | Provenance |
+|---|---|
+| `images/powerbi-overview.png` | Reviewed export from the local Power BI report |
+| `images/analysis-soundchain-preview.svg` | Generated static page preview; not a `.pbix` export |
+| `images/analysis-data-quality-preview.svg` | Generated static page preview; not a `.pbix` export |
 
-The next reporting increment should focus on three complete pages:
+The distinction is intentional. The repository should never imply that a generated preview was exported from Power BI.
 
-1. **Overview** — source-table KPIs, categories and workflow counts
-2. **Soundchain analysis** — ordered equipment use, reuse, complexity and optional stages
-3. **Data quality and governance** — quality status, privacy status and model coverage
+## Local implementation checklist
 
-Five sparse pages are not the objective. A smaller set of complete pages with documented findings is stronger.
+Before replacing a preview with a Power BI export:
 
-## Version-controlled evidence to add
+- use only committed public-safe source or processed data
+- confirm active/inactive relationships match `powerbi/model.md`
+- implement and validate measures from `powerbi/measures.dax`
+- verify KPI values against `data/processed/analysis_summary.csv`
+- check that no private paths, notes or report metadata are visible
+- export at a readable resolution
+- update this provenance table
 
-```text
-powerbi/
-├── README.md
-├── measures.dax
-├── model.md
-└── findings.md
-```
+## Current KPI baseline
 
-Reviewed screenshots may be committed after checking that they contain only public-safe sample data.
+- Equipment Items: 30
+- Soundchains: 12
+- Equipment Uses: 53
+- Equipment Coverage: 80%
+- Average Steps per Soundchain: 4.42
+- Maximum Steps in Soundchain: 7
+
+These values are regenerated in CI and provide a review baseline for the local report.

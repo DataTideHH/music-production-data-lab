@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml)
 
-Public-safe analytics project that transforms semi-structured music-production notes into validated relational data, reproducible Python/SQLite builds, SQL analysis and Power BI reporting evidence.
+Public-safe analytics project that transforms semi-structured music-production notes into validated relational data, reproducible Python/SQLite builds, generated SQL reporting outputs and documented Power BI evidence.
 
 Project page: https://datatidehh.github.io/music-production-data-lab/
 
@@ -17,25 +17,38 @@ semi-structured domain notes
 -> curated public-safe CSV source data
 -> documented entities and controlled values
 -> validated relational SQLite model
--> SQL analysis and data-quality checks
--> Power BI reporting layer
+-> SQL reporting views and analytical queries
+-> generated reporting datasets
+-> Power BI semantic model, DAX and reviewed visual evidence
 ```
 
-The domain is music production, but the portfolio evidence is transferable: requirements clarification, entity and relationship design, data governance, reproducible processing, validation, analysis and stakeholder-oriented documentation.
+The domain is music production, but the portfolio evidence is transferable: requirements clarification, entity and relationship design, data governance, reproducible processing, dependency analysis, BI modelling and stakeholder-oriented interpretation.
+
+## Current analytical sample
+
+| Entity | Rows |
+|---|---:|
+| Equipment | 30 |
+| Music references | 12 |
+| Soundchains/workflows | 12 |
+| Ordered equipment uses | 53 |
+
+The sample is deliberately curated. It is large enough to demonstrate relational behaviour without publishing a complete private inventory.
 
 ## Current evidence
 
 | Layer | Evidence |
 |---|---|
-| Source data | Four curated public-safe CSV tables with stable identifiers |
-| Data model | Equipment, music references, soundchains and a bridge table |
-| Governance | Explicit public/private boundary and automated safety checks |
-| Python | Dependency-free Python 3.12 build and validation workflow |
-| SQL | Constrained SQLite schema, analytical queries and zero-row quality checks |
-| Testing | 12 unit tests covering success and failure paths |
-| CI | Ubuntu and Windows jobs on Python 3.12 |
-| BI | Public-safe Power BI overview screenshot and documented semantic-model plan |
-| Documentation | GitHub Pages, ER diagram, data dictionary and reviewer path |
+| Source data | Four public-safe CSV tables with stable identifiers and provenance notes |
+| Data model | Equipment, references, soundchains and an ordered bridge table |
+| Governance | Public/private boundary, controlled values and automated safety checks |
+| Python | Dependency-free Python 3.12 build and deterministic reporting workflow |
+| SQL | Constrained SQLite schema, reporting views, 16 analytical queries and 17 zero-row quality checks |
+| Testing | Database and reporting tests covering success and failure paths |
+| CI | Required Ubuntu and Windows jobs on Python 3.12 |
+| Reporting | Three generated CSV reporting datasets and a generated Markdown summary |
+| Power BI | Existing reviewed overview export, version-controlled DAX and semantic-model documentation |
+| Interpretation | Written findings connecting reuse, coverage, complexity and quality status |
 
 Generated SQLite databases and Power BI working files are local artifacts and are not committed.
 
@@ -46,24 +59,22 @@ flowchart LR
     A[Private working notes] -->|curation| B[Public-safe CSV tables]
     B --> C[Python validation]
     C --> D[SQLite schema and import]
-    D --> E[SQL analysis]
+    D --> E[Reporting views and SQL analysis]
     D --> F[Data-quality checks]
-    B --> G[Power BI semantic model]
-    E --> G
-    G --> H[Reviewed portfolio screenshots]
+    E --> G[Generated reporting CSVs]
+    B --> H[Power BI semantic model]
+    G --> H
+    H --> I[Reviewed visual evidence]
 ```
 
 The central many-to-many relationship is:
 
 ```text
-soundchains
-    1 -> n
-soundchain_equipment
-    n -> 1
-equipment
+equipment 1 -> n soundchain_equipment n <- 1 soundchains
+                                        n -> 1 music_references
 ```
 
-See [Data model](docs/data-model.md) and [Data dictionary](docs/data-dictionary.md).
+See [Data model](docs/data-model.md), [Data dictionary](docs/data-dictionary.md) and [Power BI semantic model](powerbi/model.md).
 
 ## Repository structure
 
@@ -77,25 +88,37 @@ music-production-data-lab/
 │   │   ├── music_references_public.csv
 │   │   ├── soundchains_public.csv
 │   │   └── soundchain_equipment_public.csv
+│   ├── processed/
+│   │   ├── analysis_summary.csv
+│   │   ├── equipment_usage_summary.csv
+│   │   └── soundchain_analysis.csv
 │   └── private/.gitkeep
 ├── docs/
-│   ├── assets/css/style.scss
-│   ├── images/powerbi-overview.png
+│   ├── findings.md
+│   ├── generated-analysis-summary.md
+│   ├── images/
+│   │   ├── powerbi-overview.png
+│   │   ├── analysis-soundchain-preview.svg
+│   │   └── analysis-data-quality-preview.svg
 │   ├── index.md
 │   ├── data-model.md
 │   ├── data-dictionary.md
 │   ├── testing-and-ci.md
-│   ├── publication-policy.md
-│   ├── power-bi-plan.md
-│   └── official-references.md
+│   └── publication-policy.md
+├── powerbi/
+│   ├── README.md
+│   ├── measures.dax
+│   └── model.md
 ├── scripts/
-│   └── build_database.py
+│   ├── build_database.py
+│   └── generate_analysis_report.py
 ├── sql/
 │   ├── schema.sql
 │   ├── example_queries.sql
 │   └── data_quality_queries.sql
 └── tests/
-    └── test_build_database.py
+    ├── test_build_database.py
+    └── test_generate_analysis_report.py
 ```
 
 ## Quick start
@@ -110,6 +133,7 @@ macOS/Linux:
 ```bash
 python3.12 -m unittest discover -s tests -p "test_*.py" -v
 python3.12 scripts/build_database.py
+python3.12 scripts/generate_analysis_report.py
 ```
 
 Windows PowerShell:
@@ -117,6 +141,7 @@ Windows PowerShell:
 ```powershell
 py -3.12 -m unittest discover -s tests -p "test_*.py" -v
 py -3.12 scripts\build_database.py
+py -3.12 scripts\generate_analysis_report.py
 ```
 
 Default generated database:
@@ -125,12 +150,51 @@ Default generated database:
 db/music_production_data_lab.sqlite
 ```
 
-A custom existing output file is not replaced unless `--overwrite` is passed:
+The reporting generator rebuilds these committed outputs deterministically:
 
-```bash
-python3.12 scripts/build_database.py --db /tmp/music-lab.sqlite
-python3.12 scripts/build_database.py --db /tmp/music-lab.sqlite --overwrite
+```text
+data/processed/analysis_summary.csv
+data/processed/equipment_usage_summary.csv
+data/processed/soundchain_analysis.csv
+docs/generated-analysis-summary.md
 ```
+
+CI regenerates these four reporting outputs and fails when the committed versions are stale. The two SVG page previews are separately reviewed visual-design evidence based on the same validated metrics; they are not generated by the reporting script.
+
+## Key findings
+
+The current public sample shows:
+
+- 24 of 30 equipment records are used in at least one workflow: 80% coverage.
+- 16 equipment records are reused across two or more workflows.
+- the SD-1 Super OverDrive and UR22C are the most reused records, with five workflows each.
+- recording workflows account for four of 12 soundchains and include the two largest workflows.
+- 39 of 53 equipment uses are required, 11 optional and three swap candidates.
+- 19 equipment records are verified, ten remain sample-level and one needs verification.
+
+See [Analysis findings and interpretation](docs/findings.md) and the [generated summary](docs/generated-analysis-summary.md).
+
+## Power BI evidence
+
+### Reviewed overview export
+
+![Power BI overview dashboard](docs/images/powerbi-overview.png)
+
+### Soundchain Analysis preview
+
+![Soundchain Analysis static preview](docs/images/analysis-soundchain-preview.svg)
+
+### Data Quality and Coverage preview
+
+![Data Quality and Coverage static preview](docs/images/analysis-data-quality-preview.svg)
+
+The two SVGs are reviewed, data-backed design previews of the intended Power BI pages. They are explicitly labelled as previews and are not represented as `.pbix` exports. The existing PNG is the reviewed Power BI overview export. The source metrics behind the previews are reproducibly generated and checked by CI.
+
+Version-controlled BI evidence:
+
+- [DAX measures](powerbi/measures.dax)
+- [Semantic-model documentation](powerbi/model.md)
+- [Power BI evidence notes](powerbi/README.md)
 
 ## What the build validates
 
@@ -141,27 +205,15 @@ The build fails on:
 - duplicate business keys
 - invalid controlled values
 - inconsistent hardware/software classification
-- non-positive or duplicate positions in a soundchain
+- non-positive, duplicate or non-contiguous positions
 - orphan relationships
+- direct instrument/output relationships missing from the bridge
 - non-public privacy classifications
 - selected sensitive-term, currency-like and serial-like patterns
 - SQLite integrity or foreign-key errors
 - any SQL data-quality query returning rows
 
 The public-safety validation is a portfolio safeguard, not a claim that automated scanning can replace human review.
-
-## Current analytical questions
-
-The committed SQL layer answers questions such as:
-
-- Which equipment categories are represented?
-- Which items are reused across the most workflows?
-- How many required and optional steps exist?
-- Which soundchains are more complex?
-- Which equipment records are not yet used in a soundchain?
-- Which sound axes and reference groups are represented?
-
-The next analytical increment will expand the curated sample and publish stronger Power BI measures, screenshots and written findings.
 
 ## Public/private boundary
 
@@ -174,7 +226,7 @@ The repository must not contain:
 - serial numbers
 - private condition or storage notes
 - original private source documents
-- unreviewed Power BI files or screenshots
+- unreviewed Power BI working files or screenshots
 
 Protected local folders and file types are defined in `.gitignore`. See [Publication policy](docs/publication-policy.md).
 
@@ -183,34 +235,30 @@ Protected local folders and file types are defined in `.gitignore`. See [Publica
 A reviewer can assess the project in a few minutes:
 
 1. Read the [project page](https://datatidehh.github.io/music-production-data-lab/).
-2. Inspect the [ER model](docs/data-model.md).
-3. Review the [controlled values and quality rules](docs/data-dictionary.md).
-4. Run the tests and reproducible database build.
-5. Inspect [analytical SQL](sql/example_queries.sql) and [quality checks](sql/data_quality_queries.sql).
-6. Review the [Power BI plan](docs/power-bi-plan.md) and published overview.
+2. Review the [generated analysis summary](docs/generated-analysis-summary.md).
+3. Inspect the [findings and interpretation](docs/findings.md).
+4. Inspect the [ER model](docs/data-model.md) and [semantic model](powerbi/model.md).
+5. Run the tests, database build and reporting generator.
+6. Review the [analytical SQL](sql/example_queries.sql) and [DAX measures](powerbi/measures.dax).
+7. Inspect the reviewed overview and the two clearly labelled analytical previews.
 
-## Current, next and deferred scope
+## Current and deferred scope
 
 ### Implemented
 
-- public-safe CSV source data
-- relational SQLite schema
+- expanded curated public sample
+- relational SQLite schema and reporting views
 - Python build and validation
-- SQL analysis and data-quality checks
-- automated unit tests
-- cross-platform GitHub Actions
-- initial Power BI overview
-- GitHub Pages documentation
-
-### Next
-
-- enlarge the curated public sample without publishing the full private inventory
-- add richer analytical SQL outputs
-- document DAX measures and the semantic model
-- publish two or three reviewed Power BI pages with written findings
+- generated reporting datasets
+- analytical and data-quality SQL
+- automated unit tests and cross-platform CI
+- Power BI semantic-model and DAX documentation
+- reviewed overview export and two data-backed analytical design previews
+- written findings and GitHub Pages documentation
 
 ### Deferred
 
+- replacing the two static previews with reviewed exports from the updated local `.pbix`
 - Streamlit explorer
 - additional API layer
 
