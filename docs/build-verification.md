@@ -1,31 +1,37 @@
 # Build verification
 
-Version 3.1 documents the first cross-platform build verification for `music-production-data-lab`.
+The reproducible data workflow is verified locally and in GitHub Actions.
 
-## Verified systems
+## Automated verification
 
-The reproducible database build has been verified on:
+| Job | Runtime | Scope |
+|---|---|---|
+| Python 3.12 (Ubuntu) | Ubuntu latest | compile, 12 tests, temporary SQLite build |
+| Python 3.12 (Windows) | Windows latest | compile, 12 tests, temporary SQLite build |
 
-| System | OS | Python command | Result |
-|---|---|---|---|
-| iMac | macOS Sonoma via OCLP | `python3 scripts/build_database.py` | successful |
-| ThinkPad | Windows 11 / PowerShell 7 | `py -3.12 scripts\build_database.py` | successful |
+See [Testing and CI](testing-and-ci.md).
+
+## Active local platforms
+
+| System | Platform | Command |
+|---|---|---|
+| iMac | macOS Sonoma on Intel | `python3.12 scripts/build_database.py` |
+| ThinkPad | Windows 11 / PowerShell 7 | `py -3.12 scripts\build_database.py` |
 
 ## Verified workflow
 
-The verified workflow is:
+```text
+public CSV files
+-> Python structure and business-rule validation
+-> temporary SQLite build
+-> relational import
+-> integrity and foreign-key checks
+-> analytical SQL
+-> zero-row data-quality checks
+-> atomic publication of the local database
+```
 
-    CSV
-    -> Python validation
-    -> SQLite database build
-    -> SQL example queries
-    -> SQL data-quality queries
-
-## Current build result
-
-The build script validates the public CSV files, creates a local SQLite database and imports the sample data.
-
-Expected row counts:
+Expected committed sample row counts:
 
 | Table | Rows |
 |---|---:|
@@ -34,24 +40,4 @@ Expected row counts:
 | soundchains | 5 |
 | soundchain_equipment | 16 |
 
-## Build artifacts
-
-The generated SQLite database is a local build artifact:
-
-    db/music_production_data_lab.sqlite
-
-The `db/` folder is ignored by Git. The database file must not be committed.
-
-## Why this matters
-
-The project is no longer only a static documentation repository. It now has a reproducible local data workflow that works on both macOS and Windows.
-
-This supports the portfolio story:
-
-    unstructured notes
-    -> public-safe CSV sample data
-    -> documented schema
-    -> Python validation
-    -> SQLite import
-    -> SQL analysis
-    -> data-quality checks
+The generated database is a local artifact under `db/` and is ignored by Git.
