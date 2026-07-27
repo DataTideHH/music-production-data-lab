@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+from contextlib import closing
 import importlib.util
 import shutil
 import sqlite3
@@ -69,7 +70,7 @@ class BuildDatabaseTest(unittest.TestCase):
         )
         self.assertTrue(output.exists())
 
-        with sqlite3.connect(output) as connection:
+        with closing(sqlite3.connect(output)) as connection:
             tables = {
                 row[0]
                 for row in connection.execute(
@@ -175,7 +176,7 @@ class BuildDatabaseTest(unittest.TestCase):
         )
 
         self.assertEqual(summary.database_path, output.resolve())
-        with sqlite3.connect(output) as connection:
+        with closing(sqlite3.connect(output)) as connection:
             self.assertEqual(
                 connection.execute("SELECT COUNT(*) FROM equipment").fetchone()[0],
                 10,
