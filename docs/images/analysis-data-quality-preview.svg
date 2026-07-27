@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#fafaf7"/>
+<rect width="1200" height="92" fill="#0a2f4f"/>
+<text x="46" y="55" font-size="30" font-weight="700" fill="#ffffff">Data Quality and Coverage</text>
+<text x="46" y="79" font-size="15" fill="#bfe8f2">Static Power BI page preview generated from the public sample</text>
+<rect x="46" y="120" width="250" height="112" rx="14" fill="#ffffff" stroke="#d5e2e8"/><text x="70" y="160" font-size="18" fill="#4a5662">Equipment records</text><text x="70" y="204" font-size="38" font-weight="700" fill="#0a2f4f">30</text>
+<rect x="316" y="120" width="250" height="112" rx="14" fill="#ffffff" stroke="#d5e2e8"/><text x="340" y="160" font-size="18" fill="#4a5662">Coverage</text><text x="340" y="204" font-size="38" font-weight="700" fill="#0a2f4f">80%</text>
+<rect x="586" y="120" width="250" height="112" rx="14" fill="#ffffff" stroke="#d5e2e8"/><text x="610" y="160" font-size="18" fill="#4a5662">Verified equipment</text><text x="610" y="204" font-size="38" font-weight="700" fill="#0a2f4f">19</text>
+<rect x="856" y="120" width="250" height="112" rx="14" fill="#ffffff" stroke="#d5e2e8"/><text x="880" y="160" font-size="18" fill="#4a5662">Needs verification</text><text x="880" y="204" font-size="38" font-weight="700" fill="#0a2f4f">1</text>
+<text x="82" y="322" font-size="23" font-weight="700" fill="#0a2f4f">Equipment workflow coverage</text>
+<rect x="82" y="355" width="522" height="58" fill="#0b92b6"/>
+<rect x="604" y="355" width="261" height="58" fill="#43c4df"/>
+<rect x="865" y="355" width="196" height="58" fill="#c8d3d8"/>
+<rect x="90" y="450" width="18" height="18" rx="3" fill="#0b92b6"/>
+<text x="120" y="465" font-size="17" fill="#0b1820">Reused: 16</text>
+<rect x="430" y="450" width="18" height="18" rx="3" fill="#43c4df"/>
+<text x="460" y="465" font-size="17" fill="#0b1820">Single use: 8</text>
+<rect x="770" y="450" width="18" height="18" rx="3" fill="#c8d3d8"/>
+<text x="800" y="465" font-size="17" fill="#0b1820">Unused: 6</text>
+<text x="82" y="555" font-size="20" font-weight="700" fill="#0a2f4f">Governance boundary</text>
+<text x="82" y="590" font-size="17" fill="#4a5662">Only curated public-sample records are committed; private source material and report working files remain local.</text>
+<text x="46" y="690" font-size="14" fill="#4a5662">Generated analytical preview — not a screenshot exported from a .pbix file.</text>
+</svg>
