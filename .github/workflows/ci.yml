@@ -31,13 +31,28 @@ jobs:
 
       - name: Compile workflow and tests
         run: |
-          python -m py_compile scripts/build_database.py tests/test_build_database.py
+          python -m py_compile \
+            scripts/build_database.py \
+            scripts/generate_analysis_report.py \
+            tests/test_build_database.py \
+            tests/test_generate_analysis_report.py
 
       - name: Run unit tests
         run: python -m unittest discover -s tests -p "test_*.py" -v
 
       - name: Build validated SQLite database
         run: python scripts/build_database.py --db "${{ runner.temp }}/music-production-data-lab.sqlite"
+
+      - name: Regenerate reporting outputs
+        run: python scripts/generate_analysis_report.py
+
+      - name: Verify committed reporting outputs are current
+        run: |
+          git diff --exit-code -- \
+            data/processed/analysis_summary.csv \
+            data/processed/equipment_usage_summary.csv \
+            data/processed/soundchain_analysis.csv \
+            docs/generated-analysis-summary.md
 
   windows:
     name: Python 3.12 (Windows)
@@ -55,7 +70,12 @@ jobs:
 
       - name: Compile workflow and tests
         shell: pwsh
-        run: python -m py_compile scripts/build_database.py tests/test_build_database.py
+        run: |
+          python -m py_compile `
+            scripts/build_database.py `
+            scripts/generate_analysis_report.py `
+            tests/test_build_database.py `
+            tests/test_generate_analysis_report.py
 
       - name: Run unit tests
         shell: pwsh
@@ -78,3 +98,16 @@ jobs:
       - name: Build validated SQLite database
         shell: pwsh
         run: python scripts/build_database.py --db "$env:RUNNER_TEMP\music-production-data-lab.sqlite"
+
+      - name: Regenerate reporting outputs
+        shell: pwsh
+        run: python scripts/generate_analysis_report.py
+
+      - name: Verify committed reporting outputs are current
+        shell: pwsh
+        run: |
+          git diff --exit-code -- `
+            data/processed/analysis_summary.csv `
+            data/processed/equipment_usage_summary.csv `
+            data/processed/soundchain_analysis.csv `
+            docs/generated-analysis-summary.md
