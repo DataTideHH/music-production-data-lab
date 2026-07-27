@@ -1,106 +1,117 @@
 ---
 title: Music Production Data Lab
-description: Public-safe relational data, Python, SQL, data quality and Power BI
+description: Public-safe relational analytics, SQL reporting and Power BI evidence
 ---
 
 # Music Production Data Lab
 
-**Public-safe analytics project turning semi-structured music-production notes into validated relational data, reproducible Python/SQLite builds, SQL analysis and Power BI reporting evidence.**
+**Public-safe analytics project transforming semi-structured music-production notes into validated relational data, generated reporting datasets and documented Power BI evidence.**
 
-[View repository](https://github.com/DataTideHH/music-production-data-lab) · [Run the project](https://github.com/DataTideHH/music-production-data-lab#quick-start) · [DataTideHH portfolio](https://datatidehh.de/)
+[View repository](https://github.com/DataTideHH/music-production-data-lab) · [Read the full README](https://github.com/DataTideHH/music-production-data-lab/blob/main/README.md) · [DataTideHH portfolio](https://datatidehh.de/)
 
 ---
 
-## Why this project exists
+## Project purpose
 
-The source domain contains heterogeneous objects and workflows: instruments, effects, amplification, software, recording hardware, references and ordered signal chains. The analytical problem is to make those concepts consistent, relational and reviewable without publishing private source material.
+The source domain is a music-production setup, but the portfolio focus is Data/BI and process analysis:
+
+- turn semi-structured domain notes into controlled tabular data
+- model equipment, references and workflows through stable identifiers
+- validate relationships, quality status and publication boundaries
+- build a reproducible SQLite data product
+- generate reporting datasets from SQL-backed views
+- document a Power BI semantic model and DAX layer
+- interpret results for a technical or non-technical reviewer
+
+---
+
+## Current sample
+
+| Entity | Rows |
+|---|---:|
+| Equipment | 30 |
+| Music references | 12 |
+| Soundchains | 12 |
+| Ordered equipment uses | 53 |
+
+The sample is curated and public-safe. It is not a complete private inventory.
+
+---
+
+## Key metrics
+
+| Metric | Result |
+|---|---:|
+| Equipment workflow coverage | 80% |
+| Reused equipment items | 16 |
+| Recording workflows | 4 |
+| Average steps per soundchain | 4.42 |
+| Maximum steps | 7 |
+| Equipment items needing verification | 1 |
+
+[Read the generated analysis summary](generated-analysis-summary.md) · [Read the findings](findings.md)
+
+---
+
+## Reporting workflow
 
 ```text
-semi-structured notes
--> curated public-safe CSV tables
+public CSV source data
 -> Python validation
--> constrained SQLite model
--> SQL analysis and quality checks
--> Power BI reporting layer
+-> SQLite relational model
+-> reporting views and analytical SQL
+-> generated reporting CSVs
+-> Power BI semantic model and DAX
+-> reviewed visual evidence
 ```
 
 ---
 
-## Current evidence
+## Power BI evidence
 
-| Evidence | What it demonstrates |
-|---|---|
-| [Data model](data-model.md) | Entities, relationships and modelling decisions |
-| [Data dictionary](data-dictionary.md) | Controlled values, keys and business rules |
-| [Python workflow](python-import-notes.md) | Reproducible import and validation |
-| [Testing and CI](testing-and-ci.md) | 12 tests plus Ubuntu and Windows automation |
-| [SQL model](sqlite-model-notes.md) | Constraints, analytical queries and quality checks |
-| [Power BI plan](power-bi-plan.md) | Semantic-model and reporting design |
-| [Publication policy](publication-policy.md) | Public/private boundary |
-| [Official references](official-references.md) | Primary technical documentation |
-
----
-
-## Relational focus
-
-The main analytical relationship is an ordered bridge between soundchains and equipment:
-
-```text
-soundchains
-    1 -> n
-soundchain_equipment
-    n -> 1
-equipment
-```
-
-The bridge supports equipment reuse, sequence analysis, required/optional roles and workflow-level reporting.
-
----
-
-## Automated quality controls
-
-The workflow checks:
-
-- exact CSV structure and required values
-- duplicate keys and soundchain positions
-- controlled categorical values
-- hardware/software classification
-- foreign-key relationships
-- public privacy classifications
-- selected sensitive patterns
-- SQLite integrity
-- SQL quality queries that must return zero rows
-
-GitHub Actions runs the same build on Ubuntu and Windows with Python 3.12.
-
----
-
-## Power BI overview
+### Existing reviewed overview
 
 ![Power BI overview dashboard](images/powerbi-overview.png)
 
-The published screenshot uses only reviewed public-safe sample data. The `.pbix` working file remains local.
+### Soundchain Analysis preview
+
+![Soundchain Analysis preview](images/analysis-soundchain-preview.svg)
+
+### Data Quality and Coverage preview
+
+![Data Quality and Coverage preview](images/analysis-data-quality-preview.svg)
+
+The two SVG pages are deterministic, data-backed previews and are not represented as screenshots exported from a `.pbix` file.
 
 ---
 
-## Portfolio relevance
+## Portfolio artifacts
 
-This project demonstrates:
-
-- data modelling from messy domain knowledge
-- many-to-many relationship design
-- data quality and governance basics
-- reproducible Python and SQL workflows
-- cross-platform validation
-- reporting preparation and technical communication
-
-The next increment will expand the curated analytical sample and publish stronger Power BI measures, screenshots and written findings.
+| Artifact | What it demonstrates |
+|---|---|
+| [Generated analysis summary](generated-analysis-summary.md) | Reproducible metrics and ranked outputs |
+| [Findings and interpretation](findings.md) | Business-readable interpretation of reuse, complexity and quality |
+| [Data model](data-model.md) | Entities, bridge table and relationship decisions |
+| [Data dictionary](data-dictionary.md) | Controlled values and validation rules |
+| [Testing and CI](testing-and-ci.md) | Cross-platform reproducibility and stale-output detection |
+| [Power BI plan](power-bi-plan.md) | Page goals and reporting questions |
+| [Power BI model](../powerbi/model.md) | Relationships, active/inactive paths and data types |
+| [DAX measures](../powerbi/measures.dax) | Version-controlled BI calculations |
+| [Publication policy](publication-policy.md) | Public/private boundary |
 
 ---
 
-## Related DataTideHH projects
+## Main findings
 
-- [Network Operations Data Lab](https://datatidehh.github.io/network-operations-data-lab/) — operational IT analytics
-- [Hamburg District Data Basics](https://github.com/DataTideHH/hamburg-district-data-basics) — public/open-data analysis
-- [Open-Meteo Germany Weather Ranking](https://github.com/DataTideHH/open-meteo-germany-weather-ranking) — API-based Python workflow
-- [Spring Boot Process API Basics](https://datatidehh.github.io/spring-boot-process-api-basics/) — supporting API evidence
+- 24 of 30 equipment records are used in at least one workflow.
+- shared platform items create the highest reuse across workflows.
+- recording workflows are fewer but include the largest chains.
+- required, optional and swap-candidate roles support dependency analysis.
+- quality status is exposed to reporting instead of being hidden.
+
+---
+
+## Related DataTideHH project pages
+
+- [Network Operations Data Lab](https://datatidehh.github.io/network-operations-data-lab/) — operational IT data, Python, SQL and data quality
+- [Spring Boot Process API Basics](https://datatidehh.github.io/spring-boot-process-api-basics/) — Java/Spring process API evidence
