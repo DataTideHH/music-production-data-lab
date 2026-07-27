@@ -1,21 +1,8 @@
 # SQLite model notes
 
-Version 2.0 introduces the first SQL layer for `music-production-data-lab`.
+The repository contains an executable relational SQLite layer.
 
-The goal is not yet to generate a production database. The goal is to document how the current CSV model maps to a relational SQLite structure.
-
-## Files
-
-Version 2.0 adds:
-
-- `sql/schema.sql`
-- `sql/example_queries.sql`
-- `sql/data_quality_queries.sql`
-- `docs/sqlite-model-notes.md`
-
-## Current relational tables
-
-The first relational model contains four tables:
+## Tables
 
 - `equipment`
 - `music_references`
@@ -24,53 +11,37 @@ The first relational model contains four tables:
 
 ## Main relationship
 
-The most important relationship is between soundchains and equipment.
+```text
+soundchains
+    1 -> n
+soundchain_equipment
+    n -> 1
+equipment
+```
 
-A soundchain can use multiple equipment items.
+The bridge primary key is `(soundchain_id, position_in_chain)`, reflecting the current rule that one ordered position contains one item.
 
-An equipment item can appear in multiple soundchains.
+## Constraints
 
-This is modeled through the relationship table:
+The schema enforces:
 
-    soundchain_equipment
+- primary and foreign keys
+- positive chain positions
+- public-only privacy levels
+- controlled statuses and categories
+- exactly one true hardware/software flag
+- valid workflow, complexity and role values
 
-Conceptually:
+Python performs the same important checks before insertion to provide clearer error messages.
 
-    soundchains
-        1 -> n
-    soundchain_equipment
-        n -> 1
-    equipment
+## SQL layers
 
-## Foreign key logic
+- `schema.sql` creates the constrained model.
+- `example_queries.sql` answers analytical questions.
+- `data_quality_queries.sql` contains checks that must return zero rows.
 
-The model prepares these relationships:
+The build also runs `PRAGMA foreign_key_check` and `PRAGMA integrity_check`.
 
-    soundchains.primary_reference_id -> music_references.reference_id
-    soundchains.primary_instrument_id -> equipment.equipment_id
-    soundchains.output_equipment_id -> equipment.equipment_id
-    soundchain_equipment.soundchain_id -> soundchains.soundchain_id
-    soundchain_equipment.equipment_id -> equipment.equipment_id
+## Power BI note
 
-## Why text booleans are used for now
-
-The public CSV files currently use `true` and `false` values for fields such as `is_hardware` and `is_software`.
-
-For version 2.0, the SQLite schema keeps these fields as text with checks. This keeps the schema close to the CSV files.
-
-A later Python import script can transform these values into integer booleans if needed.
-
-## How this supports future work
-
-Version 2.0 prepares:
-
-- SQL practice
-- relationship modeling
-- data-quality checks
-- later Python import scripts
-- later Power BI modeling
-- later Streamlit exploration
-
-## Planned next step
-
-Version 3 can add a Python script that reads the CSV files, creates a SQLite database and imports the public sample data reproducibly.
+The bridge table is the main equipment relationship. Direct soundchain links to primary instrument and output equipment describe special roles and may be inactive in Power BI to avoid ambiguous filter paths.
