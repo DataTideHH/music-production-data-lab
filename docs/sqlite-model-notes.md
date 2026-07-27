@@ -1,4 +1,4 @@
-# SQLite model notes
+# SQLite Model Notes
 
 The repository contains an executable relational SQLite layer.
 
@@ -8,6 +8,13 @@ The repository contains an executable relational SQLite layer.
 - `music_references`
 - `soundchains`
 - `soundchain_equipment`
+
+## Reporting views
+
+- `vw_equipment_usage`
+- `vw_soundchain_analysis`
+
+The views centralize reuse, coverage, complexity and dependency calculations used by SQL review, generated CSV outputs and Power BI.
 
 ## Main relationship
 
@@ -19,7 +26,7 @@ soundchain_equipment
 equipment
 ```
 
-The bridge primary key is `(soundchain_id, position_in_chain)`, reflecting the current rule that one ordered position contains one item.
+The bridge primary key is `(soundchain_id, position_in_chain)`, reflecting the rule that one ordered position contains one item.
 
 ## Constraints
 
@@ -32,16 +39,16 @@ The schema enforces:
 - exactly one true hardware/software flag
 - valid workflow, complexity and role values
 
-Python performs the same important checks before insertion to provide clearer error messages.
+Python performs the same important checks before insertion and adds contiguous-position plus direct-role validation for clearer error messages.
 
 ## SQL layers
 
-- `schema.sql` creates the constrained model.
-- `example_queries.sql` answers analytical questions.
-- `data_quality_queries.sql` contains checks that must return zero rows.
+- `schema.sql` creates constrained tables and reporting views.
+- `example_queries.sql` contains 16 analytical queries.
+- `data_quality_queries.sql` contains 17 checks that must return zero rows.
 
 The build also runs `PRAGMA foreign_key_check` and `PRAGMA integrity_check`.
 
 ## Power BI note
 
-The bridge table is the main equipment relationship. Direct soundchain links to primary instrument and output equipment describe special roles and may be inactive in Power BI to avoid ambiguous filter paths.
+The bridge table is the active equipment relationship. Direct soundchain links to primary instrument and output equipment describe special roles and remain available as inactive relationships to avoid ambiguous filter paths.
