@@ -1,0 +1,20 @@
+metric_name,metric_value,unit,interpretation
+equipment_items,30,items,Curated public-safe equipment records.
+hardware_items,28,items,Hardware records in the analytical sample.
+software_items,2,items,Software records in the analytical sample.
+music_references,12,references,Curated sound and production references.
+soundchains,12,workflows,Modelled guitar and recording workflows.
+guitar_signal_chains,8,workflows,Amplifier-oriented guitar workflows.
+recording_workflows,4,workflows,Interface and DAW workflows.
+equipment_uses,53,uses,Ordered bridge-table equipment roles.
+distinct_equipment_used,24,items,Equipment used in at least one workflow.
+equipment_coverage_percent,80,percent,Share of equipment used in at least one workflow.
+unused_equipment_items,6,items,Items outside the current workflow sample.
+required_uses,39,uses,Required workflow stages.
+optional_uses,11,uses,Optional workflow stages.
+swap_candidate_uses,3,uses,Alternative workflow stages.
+average_steps_per_soundchain,4.42,steps,Average ordered stages per workflow.
+maximum_steps_in_soundchain,7,steps,Largest workflow in the current sample.
+reused_equipment_items,16,items,Equipment reused across at least two workflows.
+verified_equipment_items,19,items,Equipment records marked verified.
+equipment_items_needing_verification,1,items,Equipment records explicitly flagged for review.
