@@ -51,7 +51,7 @@ class BuildDatabaseTest(unittest.TestCase):
             writer.writeheader()
             writer.writerows(rows)
 
-    def test_successful_build_has_expected_tables_and_counts(self) -> None:
+    def test_successful_build_has_expected_tables_counts_and_views(self) -> None:
         output = self.project_root / "db" / "test.sqlite"
 
         summary = build_database.build_database(
@@ -62,10 +62,10 @@ class BuildDatabaseTest(unittest.TestCase):
         self.assertEqual(
             summary.row_counts,
             {
-                "equipment": 10,
-                "music_references": 8,
-                "soundchains": 5,
-                "soundchain_equipment": 16,
+                "equipment": 30,
+                "music_references": 12,
+                "soundchains": 12,
+                "soundchain_equipment": 53,
             },
         )
         self.assertTrue(output.exists())
@@ -77,10 +77,18 @@ class BuildDatabaseTest(unittest.TestCase):
                     "SELECT name FROM sqlite_master WHERE type = 'table'"
                 )
             }
+            views = {
+                row[0]
+                for row in connection.execute(
+                    "SELECT name FROM sqlite_master WHERE type = 'view'"
+                )
+            }
+
         self.assertTrue(
             {"equipment", "music_references", "soundchains", "soundchain_equipment"}
             <= tables
         )
+        self.assertTrue({"vw_equipment_usage", "vw_soundchain_analysis"} <= views)
 
     def test_duplicate_primary_key_is_rejected(self) -> None:
         name = "equipment_public.csv"
@@ -195,7 +203,7 @@ class BuildDatabaseTest(unittest.TestCase):
         with closing(sqlite3.connect(output)) as connection:
             self.assertEqual(
                 connection.execute("SELECT COUNT(*) FROM equipment").fetchone()[0],
-                10,
+                30,
             )
 
     def test_external_output_path_is_supported(self) -> None:
