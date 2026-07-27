@@ -1,6 +1,7 @@
 # Music Production Data Lab
 
 [![CI](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml)
+[![GitHub Pages](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/pages/pages-build-deployment)
 
 Public-safe relational data model with a reproducible Python/SQLite workflow, SQL reporting views, automated data-quality checks, and a documented Power BI semantic model with version-controlled DAX measures
 
