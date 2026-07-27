@@ -1,105 +1,91 @@
-# Power BI semantic-model and reporting plan
+# Power BI Reporting Plan
 
-A first public-safe overview screenshot is already published. The next reporting increment should strengthen analytical evidence rather than add many decorative pages.
+The Power BI layer communicates the relational workflow model rather than presenting a gear inventory.
 
-## Data sources
+## Reporting questions
 
-| Table | Source | Role |
-|---|---|---|
-| equipment | `data/public/equipment_public.csv` | equipment dimension |
-| music_references | `data/public/music_references_public.csv` | reference dimension |
-| soundchains | `data/public/soundchains_public.csv` | workflow entity |
-| soundchain_equipment | `data/public/soundchain_equipment_public.csv` | ordered bridge/fact table |
+1. How much of the curated equipment sample is represented in workflows?
+2. Which items are reused across multiple workflows?
+3. Which soundchains are structurally largest?
+4. How do required, optional and swap-candidate roles differ?
+5. How do recording workflows differ from guitar signal chains?
+6. Which records still require data-quality review?
 
-The generated SQLite database is a validated local build artifact. CSV remains the simplest Power BI source for the current sample.
+## Source model
 
-## Relationships
+| Table | Role |
+|---|---|
+| `equipment` | Equipment dimension |
+| `music_references` | Reference dimension |
+| `soundchains` | Workflow dimension |
+| `soundchain_equipment` | Ordered bridge/fact table |
+| `analysis_summary` | Generated KPI reference table |
 
-| From | To | Cardinality | Direction |
-|---|---|---|---|
-| soundchain_equipment[soundchain_id] | soundchains[soundchain_id] | many-to-one | single |
-| soundchain_equipment[equipment_id] | equipment[equipment_id] | many-to-one | single |
-| soundchains[primary_reference_id] | music_references[reference_id] | many-to-one | single |
+The active analytical path uses the bridge table:
 
-The direct soundchain links to primary instrument and output equipment are role-playing relationships. Keep them inactive or model them through duplicated role dimensions if they are needed in reports; do not introduce ambiguous active filter paths.
-
-## Core measures
-
-```DAX
-Equipment Items =
-    COUNTROWS(equipment)
-
-Soundchains =
-    COUNTROWS(soundchains)
-
-Equipment Uses =
-    COUNTROWS(soundchain_equipment)
-
-Distinct Equipment Used =
-    DISTINCTCOUNT(soundchain_equipment[equipment_id])
-
-Required Equipment Uses =
-    CALCULATE(
-        COUNTROWS(soundchain_equipment),
-        soundchain_equipment[required_or_optional] = "required"
-    )
-
-Optional Equipment Uses =
-    CALCULATE(
-        COUNTROWS(soundchain_equipment),
-        soundchain_equipment[required_or_optional] = "optional"
-    )
-
-Unused Equipment =
-    [Equipment Items] - [Distinct Equipment Used]
+```text
+equipment 1 -> n soundchain_equipment n <- 1 soundchains
+                                        n -> 1 music_references
 ```
 
-The next PR should store reviewed measures in `powerbi/measures.dax`.
+Direct links from `soundchains` to the primary instrument and output equipment are retained as inactive role-playing relationships to avoid ambiguous filter paths.
 
-## Recommended pages
+## Page 1: Project Overview
 
-### 1. Overview
+Purpose: explain the end-to-end data product.
 
-- source-table KPIs
+Visuals:
+
+- Equipment Items
+- Soundchains
+- Music References
+- Equipment Uses
 - equipment by category
-- hardware versus software
-- workflows by type and complexity
-- short data-flow explanation
+- hardware/software split
+- pipeline text: CSV -> Python -> SQLite -> SQL -> Power BI
 
-### 2. Soundchain analysis
+Current evidence: `docs/images/powerbi-overview.png`.
 
+## Page 2: Soundchain Analysis
+
+Purpose: explain complexity, reuse and dependency roles.
+
+Visuals:
+
+- Average Steps per Soundchain
+- Maximum Steps in Soundchain
+- Recording Workflows
+- total steps by soundchain
+- most reused equipment
+- required/optional/swap-candidate mix
 - ordered chain matrix
-- equipment reuse count
-- required versus optional stages
-- chain length and complexity
-- filters for sound axis and workflow type
+- workflow type and complexity slicers
 
-### 3. Data quality and governance
+Current design evidence: `docs/images/analysis-soundchain-preview.svg`.
 
-- data-quality status by table
-- privacy classification
-- unused records and coverage
-- explanation of public/private separation
-- reproducible-build and CI status
+## Page 3: Data Quality and Coverage
 
-## Evidence standard
+Purpose: expose coverage and governance rather than hiding incomplete records.
 
-Each published page should include:
+Visuals:
 
-- a clear analytical question
-- documented DAX
-- a reviewed screenshot
-- two or three written findings
-- limitations of the small public sample
+- Equipment Coverage %
+- Reused Equipment Items
+- Unused Equipment Items
+- Verified Equipment Items
+- Equipment Items Needing Verification
+- reused/single-use/unused distribution
+- quality-status table
+- public/private boundary note
 
-The `.pbix` file remains local until an explicit public-readiness review.
+Current design evidence: `docs/images/analysis-data-quality-preview.svg`.
 
-## Public-readiness checks
+## DAX
 
-Before publishing any screenshot:
+Version-controlled measures are stored in `powerbi/measures.dax`. Model decisions are documented in `powerbi/model.md`.
 
-- only committed public-safe sample data is visible
-- no private notes, paths, user names, prices or serial numbers appear
-- titles describe analytics and workflows, not personal wealth or inventory
-- labels are readable at repository-page scale
-- findings are supported by the displayed data
+## Public evidence rule
+
+The existing overview PNG is a reviewed Power BI export. The two SVG pages are deterministic, data-backed previews and explicitly identify themselves as previews. They must not be described as `.pbix` exports.
+
+When the local Power BI report is updated, reviewed exports can replace the two previews without committing the `.pbix` working file.
