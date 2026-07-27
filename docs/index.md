@@ -5,7 +5,7 @@ description: Public-safe relational analytics, SQL reporting and Power BI eviden
 
 # Music Production Data Lab
 
-**Public-safe analytics project transforming semi-structured music-production notes into validated relational data, generated reporting datasets and documented Power BI evidence.**
+**Public-safe relational data model with a reproducible Python/SQLite workflow, SQL reporting views, automated data-quality checks, and a documented Power BI semantic model with version-controlled DAX measures**
 
 [View repository](https://github.com/DataTideHH/music-production-data-lab) · [Read the full README](https://github.com/DataTideHH/music-production-data-lab/blob/main/README.md) · [DataTideHH portfolio](https://datatidehh.de/)
 
