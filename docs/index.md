@@ -95,8 +95,8 @@ The two SVG pages are deterministic, data-backed previews and are not represente
 | [Data dictionary](data-dictionary.md) | Controlled values and validation rules |
 | [Testing and CI](testing-and-ci.md) | Cross-platform reproducibility and stale-output detection |
 | [Power BI plan](power-bi-plan.md) | Page goals and reporting questions |
-| [Power BI model](../powerbi/model.md) | Relationships, active/inactive paths and data types |
-| [DAX measures](../powerbi/measures.dax) | Version-controlled BI calculations |
+| [Power BI model](https://github.com/DataTideHH/music-production-data-lab/blob/main/powerbi/model.md) | Relationships, active/inactive paths and data types |
+| [DAX measures](https://github.com/DataTideHH/music-production-data-lab/blob/main/powerbi/measures.dax) | Version-controlled BI calculations |
 | [Publication policy](publication-policy.md) | Public/private boundary |
 
 ---
