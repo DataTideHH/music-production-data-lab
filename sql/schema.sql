@@ -1,6 +1,5 @@
 -- music-production-data-lab
--- Version 2.0 SQLite schema
--- Purpose: relational model derived from public-safe CSV sample data.
+-- Current SQLite schema for the public-safe analytical sample.
 
 PRAGMA foreign_keys = ON;
 
@@ -11,38 +10,73 @@ DROP TABLE IF EXISTS equipment;
 
 CREATE TABLE equipment (
     equipment_id TEXT PRIMARY KEY,
-    category TEXT NOT NULL,
+    category TEXT NOT NULL CHECK (
+        category IN (
+            'instrument',
+            'effect',
+            'amplification',
+            'recording_hardware',
+            'midi_controller',
+            'software',
+            'power_utility'
+        )
+    ),
     subcategory TEXT,
     brand TEXT,
     model TEXT,
     public_name TEXT NOT NULL,
-    status_public TEXT,
+    status_public TEXT NOT NULL CHECK (
+        status_public IN ('available', 'planned', 'reference')
+    ),
     setup_domain TEXT,
     primary_role TEXT,
-    is_hardware TEXT CHECK (is_hardware IN ('true', 'false')),
-    is_software TEXT CHECK (is_software IN ('true', 'false')),
-    analog_digital TEXT,
-    mono_stereo TEXT,
+    is_hardware TEXT NOT NULL CHECK (is_hardware IN ('true', 'false')),
+    is_software TEXT NOT NULL CHECK (is_software IN ('true', 'false')),
+    analog_digital TEXT CHECK (
+        analog_digital IN ('analog', 'digital', 'hybrid', 'not_applicable')
+    ),
+    mono_stereo TEXT CHECK (
+        mono_stereo IN ('mono', 'stereo', 'both', 'not_applicable')
+    ),
     power_category TEXT,
     power_notes_public TEXT,
-    data_quality_status TEXT,
-    privacy_level TEXT,
-    public_notes TEXT
+    data_quality_status TEXT NOT NULL CHECK (
+        data_quality_status IN ('sample', 'verified', 'needs_verification')
+    ),
+    privacy_level TEXT NOT NULL CHECK (privacy_level = 'public_sample'),
+    public_notes TEXT,
+    CHECK (
+        (is_hardware = 'true' AND is_software = 'false')
+        OR
+        (is_hardware = 'false' AND is_software = 'true')
+    )
 );
 
 CREATE TABLE music_references (
     reference_id TEXT PRIMARY KEY,
     artist_or_band TEXT NOT NULL,
     sound_axis TEXT NOT NULL,
-    importance_public TEXT,
-    reference_role TEXT,
+    importance_public TEXT NOT NULL CHECK (
+        importance_public IN ('core', 'context')
+    ),
+    reference_role TEXT NOT NULL CHECK (
+        reference_role IN (
+            'playing_reference',
+            'sound_design_reference',
+            'songwriting_reference',
+            'rhythm_reference',
+            'production_reference'
+        )
+    ),
     learning_focus TEXT,
     production_focus TEXT,
     gear_anchor_public TEXT,
     tuning_notes_public TEXT,
     dashboard_group TEXT,
-    data_quality_status TEXT,
-    privacy_level TEXT,
+    data_quality_status TEXT NOT NULL CHECK (
+        data_quality_status IN ('sample', 'verified', 'needs_verification')
+    ),
+    privacy_level TEXT NOT NULL CHECK (privacy_level = 'public_sample'),
     public_notes TEXT
 );
 
@@ -51,15 +85,21 @@ CREATE TABLE soundchains (
     chain_name TEXT NOT NULL,
     target_sound TEXT,
     sound_axis TEXT,
-    workflow_type TEXT,
+    workflow_type TEXT NOT NULL CHECK (
+        workflow_type IN ('guitar_signal_chain', 'recording_workflow')
+    ),
     tuning_context TEXT,
     primary_reference_id TEXT,
     primary_instrument_id TEXT,
     output_equipment_id TEXT,
     output_context TEXT,
-    complexity_level TEXT,
-    status_public TEXT,
-    privacy_level TEXT,
+    complexity_level TEXT NOT NULL CHECK (
+        complexity_level IN ('basic', 'intermediate', 'advanced')
+    ),
+    status_public TEXT NOT NULL CHECK (
+        status_public IN ('draft_public_sample', 'verified_public_sample')
+    ),
+    privacy_level TEXT NOT NULL CHECK (privacy_level = 'public_sample'),
     public_description TEXT,
 
     FOREIGN KEY (primary_reference_id)
@@ -75,13 +115,25 @@ CREATE TABLE soundchains (
 CREATE TABLE soundchain_equipment (
     soundchain_id TEXT NOT NULL,
     equipment_id TEXT NOT NULL,
-    position_in_chain INTEGER NOT NULL,
-    role_in_chain TEXT,
-    required_or_optional TEXT,
-    sequence_group TEXT,
+    position_in_chain INTEGER NOT NULL CHECK (position_in_chain > 0),
+    role_in_chain TEXT NOT NULL,
+    required_or_optional TEXT NOT NULL CHECK (
+        required_or_optional IN ('required', 'optional', 'swap_candidate')
+    ),
+    sequence_group TEXT NOT NULL CHECK (
+        sequence_group IN (
+            'input',
+            'input_output',
+            'gain_stage',
+            'modulation',
+            'midi',
+            'software',
+            'output'
+        )
+    ),
     public_notes TEXT,
 
-    PRIMARY KEY (soundchain_id, equipment_id, position_in_chain),
+    PRIMARY KEY (soundchain_id, position_in_chain),
 
     FOREIGN KEY (soundchain_id)
         REFERENCES soundchains(soundchain_id),
@@ -107,6 +159,3 @@ CREATE INDEX idx_soundchains_workflow_type
 
 CREATE INDEX idx_soundchain_equipment_equipment_id
     ON soundchain_equipment(equipment_id);
-
-CREATE INDEX idx_soundchain_equipment_soundchain_id
-    ON soundchain_equipment(soundchain_id);
