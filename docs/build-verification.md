@@ -1,43 +1,66 @@
-# Build verification
+# Build Verification
 
-The reproducible data workflow is verified locally and in GitHub Actions.
+## Automated environments
 
-## Automated verification
+The required GitHub Actions jobs validate the workflow on:
 
-| Job | Runtime | Scope |
+| Job | Platform | Python |
 |---|---|---|
-| Python 3.12 (Ubuntu) | Ubuntu latest | compile, 12 tests, temporary SQLite build |
-| Python 3.12 (Windows) | Windows latest | compile, 12 tests, temporary SQLite build |
+| Python 3.12 (Ubuntu) | `ubuntu-latest` | 3.12 |
+| Python 3.12 (Windows) | `windows-latest` | 3.12 |
 
-See [Testing and CI](testing-and-ci.md).
-
-## Active local platforms
-
-| System | Platform | Command |
-|---|---|---|
-| iMac | macOS Sonoma on Intel | `python3.12 scripts/build_database.py` |
-| ThinkPad | Windows 11 / PowerShell 7 | `py -3.12 scripts\build_database.py` |
-
-## Verified workflow
+## Validated workflow
 
 ```text
-public CSV files
--> Python structure and business-rule validation
--> temporary SQLite build
--> relational import
--> integrity and foreign-key checks
+public CSV source data
+-> structural and governance validation
+-> SQLite schema and import
+-> reporting views
 -> analytical SQL
--> zero-row data-quality checks
--> atomic publication of the local database
+-> zero-row data-quality SQL
+-> deterministic reporting outputs
+-> stale-output check
 ```
 
-Expected committed sample row counts:
+## Expected row counts
 
 | Table | Rows |
 |---|---:|
-| equipment | 10 |
-| music_references | 8 |
-| soundchains | 5 |
-| soundchain_equipment | 16 |
+| equipment | 30 |
+| music_references | 12 |
+| soundchains | 12 |
+| soundchain_equipment | 53 |
 
-The generated database is a local artifact under `db/` and is ignored by Git.
+## Generated outputs
+
+- `data/processed/analysis_summary.csv`
+- `data/processed/equipment_usage_summary.csv`
+- `data/processed/soundchain_analysis.csv`
+- `docs/generated-analysis-summary.md`
+
+CI regenerates these four files and uses `git diff --exit-code` to ensure that the committed reporting layer matches the source data and SQL model.
+
+## Reviewed visual evidence
+
+- `docs/images/analysis-soundchain-preview.svg`
+- `docs/images/analysis-data-quality-preview.svg`
+
+These SVGs are data-backed page-design previews. They are reviewed separately and are not represented as generated reporting outputs or exports from a `.pbix` file.
+
+## Local platform commands
+
+iMac/macOS:
+
+```bash
+/usr/local/bin/python3.12 -m unittest discover -s tests -p "test_*.py" -v
+/usr/local/bin/python3.12 scripts/build_database.py
+/usr/local/bin/python3.12 scripts/generate_analysis_report.py
+```
+
+ThinkPad/Windows:
+
+```powershell
+py -3.12 -m unittest discover -s tests -p "test_*.py" -v
+py -3.12 scripts\build_database.py
+py -3.12 scripts\generate_analysis_report.py
+```
