@@ -189,14 +189,23 @@ FORBIDDEN_COLUMN_TOKENS = {
 }
 
 SENSITIVE_WORD_PATTERNS = (
-    re.compile(r"\b(?:serial|serial number|seriennummer|invoice|rechnung|kaufpreis)\b", re.IGNORECASE),
-    re.compile(r"\b(?:purchase price|purchase date|storage location)\b", re.IGNORECASE),
+    re.compile(
+        r"\b(?:serial|serial number|seriennummer|invoice|rechnung|kaufpreis)\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(?:price|purchase|purchase price|purchase date|storage location)\b",
+        re.IGNORECASE,
+    ),
 )
 CURRENCY_PATTERN = re.compile(
     r"(?:[$€£]\s?\d[\d.,]*|\b\d[\d.,]*\s?(?:EUR|USD|GBP)\b)",
     re.IGNORECASE,
 )
-SERIAL_VALUE_PATTERN = re.compile(r"\b(?:S/N|SN)[:#\s-]*[A-Z0-9-]{6,}\b", re.IGNORECASE)
+SERIAL_VALUE_PATTERN = re.compile(
+    r"\b(?:S/N[:#\s-]+|SN[:#\s-]+)[A-Z0-9-]{6,}\b",
+    re.IGNORECASE,
+)
 
 
 class BuildError(RuntimeError):
