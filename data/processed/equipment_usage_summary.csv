@@ -1,0 +1,31 @@
+equipment_id,public_name,category,subcategory,status_public,data_quality_status,soundchain_usage_count,coverage_status
+EQP-0014,SD-1 Super OverDrive,effect,overdrive,available,verified,5,reused
+EQP-0005,UR22C,recording_hardware,audio_interface,available,sample,5,reused
+EQP-0007,Ableton Live 12 Intro,software,daw,available,verified,4,reused
+EQP-0011,SE Standard 24-08,instrument,electric_guitar,available,verified,4,reused
+EQP-0015,DL4 MkII,effect,delay,available,verified,3,reused
+EQP-0002,DS-1 Distortion,effect,distortion,available,verified,3,reused
+EQP-0001,Player Stratocaster SSS,instrument,electric_guitar,available,verified,3,reused
+EQP-0026,Big Muff Pi,effect,fuzz,available,verified,2,reused
+EQP-0004,Catalyst 60,amplification,modeling_amp,available,verified,2,reused
+EQP-0016,Disaster Transport Legacy,effect,delay,available,sample,2,reused
+EQP-0021,Katana 50 Gen 3,amplification,modeling_amp,available,verified,2,reused
+EQP-0013,Premier Mini DC,instrument,semi_hollow_guitar,available,sample,2,reused
+EQP-0012,TE-25TH,instrument,electric_guitar,available,verified,2,reused
+EQP-0020,UAFX 1176 Studio Compressor,effect,compressor,available,verified,2,reused
+EQP-0018,UAFX Evermore Studio Reverb,effect,reverb,available,verified,2,reused
+EQP-0017,UAFX Flow Tremolo,effect,tremolo,available,verified,2,reused
+EQP-0006,Komplete Kontrol M32,midi_controller,keyboard_controller,available,verified,1,single_use
+EQP-0008,Little Big Muff,effect,fuzz,available,verified,1,single_use
+EQP-0023,Micro Terror,amplification,hybrid_head,available,verified,1,single_use
+EQP-0003,Neo Clone,effect,chorus,reference,sample,1,single_use
+EQP-0024,TUBE15 Head,amplification,tube_head,available,sample,1,single_use
+EQP-0010,UAD Spark,software,plugin_subscription,reference,sample,1,single_use
+EQP-0019,UAFX Heavenly Plate Reverb,effect,reverb,available,verified,1,single_use
+EQP-0025,V5 Infinium,amplification,tube_combo,available,verified,1,single_use
+EQP-0022,AC4C1-12,amplification,tube_combo,available,verified,0,unused
+EQP-0029,CS400 Compressor Sustainer,effect,compressor,available,sample,0,unused
+EQP-0028,DR-600 Digital Reverb,effect,reverb,available,sample,0,unused
+EQP-0027,Katana 50 MkII EX,amplification,modeling_amp,available,sample,0,unused
+EQP-0009,PowerPlant ISO-2AC Pro Modular,power_utility,pedal_power_supply,available,sample,0,unused
+EQP-0030,UAFX Teletronix LA-2A,effect,compressor,planned,needs_verification,0,unused
