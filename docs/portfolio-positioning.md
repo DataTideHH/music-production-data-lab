@@ -1,49 +1,31 @@
 # Portfolio positioning
 
-This document explains how `music-production-data-lab` should be understood from a recruiter, internship or portfolio-review perspective.
+## Recruiter summary
 
-## Short description
+`music-production-data-lab` is a public-safe analytics product that transforms semi-structured domain notes into validated CSV source data, a relational SQLite model, reproducible Python processing, SQL analysis and Power BI reporting evidence.
 
-`music-production-data-lab` is a structured data and documentation project based on a real personal music production setup.
+## What it demonstrates
 
-The project transforms unstructured notes into public-safe CSV datasets, a conceptual relational data model and later SQL, Python and BI-ready analysis layers.
+- requirements and domain understanding
+- stable identifier and category design
+- many-to-many modelling with an ordered bridge table
+- data-quality and governance basics
+- reproducible Python and SQL workflows
+- Windows and Ubuntu CI
+- Power BI semantic-model preparation
+- clear technical and stakeholder communication
 
-## What this project demonstrates
+## Role within DataTideHH
 
-The project demonstrates:
+| Project | Portfolio role |
+|---|---|
+| Network Operations Data Lab | operational and infrastructure analytics |
+| Music Production Data Lab | domain modelling, workflow analysis and communication |
+| Hamburg District Data Basics | public/open-data analysis |
+| Open-Meteo Germany Weather Ranking | API-based data acquisition and tested Python logic |
 
-- data modeling from a real-world domain
-- CSV schema design
-- stable identifier design
-- data-quality thinking
-- public/private data separation
-- documentation discipline
-- preparation for SQLite and SQL
-- preparation for Power BI reporting
-- practical process and workflow analysis
+The project is deliberately small and reviewable. It does not claim enterprise scale and is not a public shopping list or complete equipment inventory.
 
-## Why the domain is useful
+## Interview explanation
 
-Music production is a practical domain with heterogeneous objects and relationships:
-
-- instruments
-- effects
-- amplifiers
-- software
-- recording hardware
-- MIDI tools
-- reference artists
-- soundchains
-- workflow concepts
-
-This makes it suitable for practicing realistic data modeling rather than only working with artificial tutorial datasets.
-
-## Recruiter-friendly summary
-
-The project shows how unstructured domain knowledge can be transformed into structured, analysis-ready data.
-
-It is not a public inventory project. It is a small data product that demonstrates a clean workflow from raw notes to CSV, documentation, relationship modeling and later SQL or BI analysis.
-
-## Possible interview explanation
-
-I built a small data modeling project based on a personal music production setup. The initial source material was unstructured documentation. I transformed it into public-safe CSV files, documented the schema, modeled equipment and soundchains as related entities and prepared the project for a later SQLite schema, SQL queries, Python checks and a Power BI dashboard.
+I started with inconsistent working notes from a domain I understand well. I separated private source material from a curated public sample, defined stable entities and controlled values, modelled ordered many-to-many relationships, built a constrained SQLite database through Python, and added automated tests and cross-platform CI. The Power BI layer communicates the model and will be expanded with documented measures and findings.
