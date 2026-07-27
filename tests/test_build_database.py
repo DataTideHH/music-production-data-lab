@@ -148,12 +148,28 @@ class BuildDatabaseTest(unittest.TestCase):
 
     def test_sensitive_public_value_is_rejected(self) -> None:
         name = "equipment_public.csv"
+
+        for sensitive_note in (
+            "Invoice 12345 is stored privately.",
+            "price 9999",
+            "purchase 12345",
+        ):
+            with self.subTest(sensitive_note=sensitive_note):
+                fields, rows = self.read_rows(name)
+                rows[0]["public_notes"] = sensitive_note
+                self.write_rows(name, fields, rows)
+
+                with self.assertRaisesRegex(
+                    build_database.BuildError,
+                    "Potentially sensitive content",
+                ):
+                    build_database.validate_csv_files(self.project_root)
+
         fields, rows = self.read_rows(name)
-        rows[0]["public_notes"] = "Invoice 12345 is stored privately."
+        rows[0]["public_notes"] = "Use the Snowball microphone for this workflow."
         self.write_rows(name, fields, rows)
 
-        with self.assertRaisesRegex(build_database.BuildError, "Potentially sensitive content"):
-            build_database.validate_csv_files(self.project_root)
+        build_database.validate_csv_files(self.project_root)
 
     def test_existing_custom_output_requires_overwrite(self) -> None:
         output = Path(self.temp_dir.name) / "custom.sqlite"
