@@ -2,7 +2,7 @@
 
 ## Short description
 
-`music-production-data-lab` is a public-safe analytics product that transforms semi-structured music-production workflows into validated relational data, generated SQL reporting outputs and documented Power BI evidence.
+Public-safe relational data model with a reproducible Python/SQLite workflow, SQL reporting views, automated data-quality checks, and a documented Power BI semantic model with version-controlled DAX measures
 
 ## What it demonstrates
 

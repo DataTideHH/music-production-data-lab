@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/DataTideHH/music-production-data-lab/actions/workflows/ci.yml)
 
-Public-safe analytics project that transforms semi-structured music-production notes into validated relational data, reproducible Python/SQLite builds, generated SQL reporting outputs and documented Power BI evidence.
+Public-safe relational data model with a reproducible Python/SQLite workflow, SQL reporting views, automated data-quality checks, and a documented Power BI semantic model with version-controlled DAX measures
 
 Project page: https://datatidehh.github.io/music-production-data-lab/
 
